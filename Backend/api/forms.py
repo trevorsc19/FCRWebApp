@@ -22,3 +22,16 @@ class PersonForm(forms.Form):
         print("cleaning email")
         # because the general field clean() method has already cleaned the data once
         print(self.cleaned_data["email"])
+        return self.cleaned_data["email"]
+
+    def clean_country(self):
+        country_from_user = self.cleaned_data["country"]
+        print("country from user is " + country_from_user)
+        if country_from_user.lower() in (country.lower() for country in COUNTRY_CHOICES):
+            print("Country is a valid country")
+        else:
+            print("Country not valid")
+            raise Exception("CountryNotValid")
+
+
+    

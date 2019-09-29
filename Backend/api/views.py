@@ -107,6 +107,7 @@ class PersonList(View):
         person = forms.PersonForm(json.loads(request.body))
         print(person)
         # if this comes back true, then we can access its clean_data attribute
+        # runs the process of validation (see link in forms.py)
         if person.is_valid():
             print("all entries are correct. Will save to database")
             print(person.cleaned_data["birth_date"])
@@ -118,6 +119,7 @@ class PersonList(View):
         else:
             print("Validation process failed")
             print(person.errors)
+            
             #print(form.errors)
         #new_person.save()
         return JsonResponse({"results": person.errors}, status=status.Code.HTTP_201_CREATED)
