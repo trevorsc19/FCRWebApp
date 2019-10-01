@@ -159,4 +159,6 @@ class PersonDetail(View):
         print("deleting user with id of {}".format(pk))
         return HttpResponse("Deleted")
 
-        
+def test_404(request):
+    return HttpResponse(status=status.Code.HTTP_404_NOT_FOUND)
+
