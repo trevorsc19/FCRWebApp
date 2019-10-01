@@ -158,3 +158,5 @@ class PersonDetail(View):
     def delete(self, request, pk):
         print("deleting user with id of {}".format(pk))
         return HttpResponse("Deleted")
+
+        
