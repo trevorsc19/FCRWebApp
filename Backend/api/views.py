@@ -159,6 +159,20 @@ class PersonDetail(View):
         print("deleting user with id of {}".format(pk))
         return HttpResponse("Deleted")
 
-def test_404(request):
-    return HttpResponse(status=status.Code.HTTP_404_NOT_FOUND)
 
+def handle_404_method(request, exception):
+    from django.template import loader
+
+    print("hi")
+    template = loader.get_template('404.html')
+    
+    context = {
+        'key': 'value'
+    }
+    
+    return HttpResponse(template.render(context, request))
+
+def test_404_handler(request):
+    # to test handle_404_method
+    raise Http404
+    #return HttpResponse("<h1>test</h1>", status=404)

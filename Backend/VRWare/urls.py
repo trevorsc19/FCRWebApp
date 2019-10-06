@@ -18,7 +18,8 @@ from django.urls import path
 from api.views import PersonList
 from api.views import PersonDetail
 from api.views import delete_table
-from api.views import test_404
+from api.views import test_404_handler
+
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -31,5 +32,7 @@ urlpatterns = [
     path('api/people/<int:pk>', PersonDetail.as_view()),
     path('deletetable/', delete_table),
     path('api/people/<int:pk>', PersonDetail.as_view()),
-    path('api/404_error_test', test_404),
+    path('api/404_error_test', test_404_handler),
 ]
+
+handler404='api.views.handle_404_method'

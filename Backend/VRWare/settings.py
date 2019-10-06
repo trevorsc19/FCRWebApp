@@ -24,9 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'q*c06+=)tz%pcs=a5#*mcx&@zg$pmle-cdy*lxjgxq9ydgd=vi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # True by default. Needed to change it to False so that we can see what a live site would show 
 
-ALLOWED_HOSTS = []
+# was [] by default. Needed to change to 127.0.0.1 when we changed Debug to False
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -52,11 +53,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'VRWare.urls'
-
+print("BASES", BASE_DIR)
+# needed to add 'templates' so that Django will know to look for the new templates folder
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'api/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
