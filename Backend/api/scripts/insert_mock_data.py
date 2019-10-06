@@ -22,11 +22,12 @@ class CSV:
         users = User.objects.all()
         print(type(users))
 
-        # Delete person table
+        # Delete entries in person table
         for p in Person.objects.all():
             p.delete()
 
         # if there is more than just 'TheAbsoluteAdmin', then delete everything
+        # or can check username and only delete if its not 'TheAbsoluteAdmin'
         if len(users) > 1:
             for user in users:
                 print(user.password)
@@ -154,6 +155,8 @@ csvTest.insert_mock_data()
 #CSV.create_random_users()
 #CSV.insert_mock_data()    
 #CSV.delete_person_table()
+
+# in Python 3, don't need if __init__ == __main__
 
 """
 import csv
