@@ -33,3 +33,6 @@ class Person(models.Model):
     # This runs when printing a Person object
     def __str__(self):
         return "first_name: {} last_name: {} email: {} birth_date: {} country: {}".format(self.first_name, self.last_name, self.email, self.birth_date, self.country)
+
+class Document(models.Model):
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
