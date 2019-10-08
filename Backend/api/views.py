@@ -181,4 +181,6 @@ def test_404_handler(request):
 
 @require_http_methods(["POST"])
 def upload_file(request):
-    pass
+    if request.method == 'POST':
+        print("posting")
+        print(request.FILES['file'])

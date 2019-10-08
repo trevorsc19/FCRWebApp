@@ -19,6 +19,7 @@ from api.views import PersonList
 from api.views import PersonDetail
 from api.views import delete_table
 from api.views import test_404_handler
+from api.views import upload_file
 
 
 """
@@ -33,6 +34,7 @@ urlpatterns = [
     path('deletetable/', delete_table),
     path('api/people/<int:pk>', PersonDetail.as_view()),
     path('api/404_error_test', test_404_handler),
+    path('api/upload', upload_file)
 ]
 
 handler404='api.views.handle_404_method'
