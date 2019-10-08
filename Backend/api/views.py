@@ -8,6 +8,8 @@ from django.http import Http404
 from django.db import connection
 from django.core import serializers
 from api import forms
+from django.views.decorators.http import require_http_methods
+
 
 def my_custom_sql():
     with connection.cursor() as cursor:
@@ -177,5 +179,6 @@ def test_404_handler(request):
     raise Http404
     #return HttpResponse("<h1>test</h1>", status=404)
 
+@require_http_methods(["POST"])
 def upload_file(request):
     pass
