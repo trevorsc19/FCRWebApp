@@ -176,3 +176,7 @@ def test_404_handler(request):
     # to test handle_404_method
     raise Http404
     #return HttpResponse("<h1>test</h1>", status=404)
+
+def upload_file(request):
+    pass
+
