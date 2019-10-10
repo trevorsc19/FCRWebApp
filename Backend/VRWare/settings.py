@@ -24,7 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'q*c06+=)tz%pcs=a5#*mcx&@zg$pmle-cdy*lxjgxq9ydgd=vi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # True by default. Needed to change it to False so that we can see what a live site would show 
+# NOTE: 'False' removes styles from django-admin
+DEBUG = True # True by default. Needed to change it to False so that we can see what a live site would show 
 
 # was [] by default. Needed to change to 127.0.0.1 when we changed Debug to False
 ALLOWED_HOSTS = ['127.0.0.1']

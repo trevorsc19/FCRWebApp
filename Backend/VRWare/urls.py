@@ -38,4 +38,5 @@ urlpatterns = [
     path('api/upload_image', upload_image)
 ]
 
+# DEBUG must be set to 'False' in settings.py for this to work
 handler404='api.views.handle_404_method'
