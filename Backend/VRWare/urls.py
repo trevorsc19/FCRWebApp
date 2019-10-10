@@ -19,8 +19,8 @@ from api.views import PersonList
 from api.views import PersonDetail
 from api.views import delete_table
 from api.views import test_404_handler
-from api.views import upload_file
-from api.views import Up
+from api.views import upload_document
+from api.views import upload_image
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -34,7 +34,8 @@ urlpatterns = [
     path('deletetable/', delete_table),
     path('api/people/<int:pk>', PersonDetail.as_view()),
     path('api/404_error_test', test_404_handler),
-    path('api/upload', upload_file)
+    path('api/upload_doc', upload_document), 
+    path('api/upload_image', upload_image)
 ]
 
 handler404='api.views.handle_404_method'

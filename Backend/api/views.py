@@ -179,9 +179,12 @@ def test_404_handler(request):
     #return HttpResponse("<h1>test</h1>", status=404)
 
 @require_http_methods(["POST"])
-def upload_file(request):
+def upload_document(request):
     if request.method == 'POST':
-        print("posting")
+        print("uploading document")
         newDoc = models.Document(docfile=request.FILES['docfile'])
         newdoc.save()
 
+def upload_image(request):
+    if request.method == 'POST':
+        print("uploading image")
