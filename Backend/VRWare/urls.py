@@ -20,7 +20,7 @@ from api.views import PersonDetail
 from api.views import delete_table
 from api.views import test_404_handler
 from api.views import upload_file
-
+from api.views import Up
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)

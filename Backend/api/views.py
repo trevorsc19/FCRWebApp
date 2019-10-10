@@ -10,7 +10,6 @@ from django.core import serializers
 from api import forms
 from django.views.decorators.http import require_http_methods
 
-
 def my_custom_sql():
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM \"PERSON_TABLE\";")
@@ -183,4 +182,6 @@ def test_404_handler(request):
 def upload_file(request):
     if request.method == 'POST':
         print("posting")
-        print(request.FILES['file'])
+        newDoc = models.Document(docfile=request.FILES['docfile'])
+        newdoc.save()
+

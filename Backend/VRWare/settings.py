@@ -99,6 +99,7 @@ DATABASES = {
 }
 
 # For file uploads
+# The location of the iploaded file will be in MEDIA_ROOT/images
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
