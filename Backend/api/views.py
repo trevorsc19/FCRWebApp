@@ -185,6 +185,20 @@ def upload_document(request):
         newDoc = models.Document(docfile=request.FILES['docfile'])
         newdoc.save()
 
+@require_http_methods(["POST"])
 def upload_image(request):
     if request.method == 'POST':
         print("uploading image")
+        form = forms.ImageForm(request.POST,request.FILES)
+        print("adfadsf")
+        #print(request.FILES['file'])
+        if form.is_valid():
+            print("image is valid")
+            cd = form.cleaned_data
+            image_model = models.Image(picture=cd['file'])
+            image_model.save()
+        else:
+            print("image is not valid")
+        #form.save()
+        return HttpResponse("hello")
+        #return HttpResponse(status=status.Code.HTTP_100_CONTINUE)

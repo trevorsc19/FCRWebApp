@@ -33,5 +33,6 @@ class PersonForm(forms.Form):
             print("Country not valid")
             raise Exception("CountryNotValid")
 
-
+class ImageForm(forms.Form):
+   file = forms.ImageField()
     
