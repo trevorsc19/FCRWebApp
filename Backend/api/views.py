@@ -184,14 +184,14 @@ def upload_document(request):
         print("uploading document")
         newDoc = models.Document(docfile=request.FILES['docfile'])
         newdoc.save()
-
+# postman: body > form-data. key: 'file' value: the file (type is file, not text)
 @require_http_methods(["POST"])
 def upload_image(request):
+    print(request.FILES)
     if request.method == 'POST':
         print("uploading image")
         form = forms.ImageForm(request.POST,request.FILES)
-        print("adfadsf")
-        #print(request.FILES['file'])
+        print(form.errors)
         if form.is_valid():
             print("image is valid")
             cd = form.cleaned_data
