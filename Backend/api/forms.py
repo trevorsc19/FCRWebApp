@@ -35,4 +35,7 @@ class PersonForm(forms.Form):
 
 class ImageForm(forms.Form):
    file = forms.ImageField()
-    
+
+class AudioForm(forms.Form):
+    audio_file = forms.FileField()
+

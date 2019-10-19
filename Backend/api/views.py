@@ -200,5 +200,22 @@ def upload_image(request):
         else:
             print("image is not valid")
         #form.save()
-        return HttpResponse("hello")
+        return HttpResponse("image succesfully uploaded")
         #return HttpResponse(status=status.Code.HTTP_100_CONTINUE)
+
+# postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
+@require_http_methods(["POST"])
+def upload_audio(request):
+    print("Uploading audio...")
+
+    if request.method == 'POST':
+        form = forms.AudioForm(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            audio_model = models.Audio(audio=cleaned_data['audio_file'])
+            audio_model.save()
+            return HttpResponse("Audio successfully uploaded");
+        else:
+            print("Audio is not valid")
+            return HttpResponse("Audio Not uploaded");

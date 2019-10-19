@@ -102,6 +102,7 @@ DATABASES = {
 # For file uploads
 # The location of the iploaded file will be in MEDIA_ROOT/images
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# I don't think this is neeeed
 MEDIA_URL = '/media/'
 
 # Password validation

@@ -21,6 +21,7 @@ from api.views import delete_table
 from api.views import test_404_handler
 from api.views import upload_document
 from api.views import upload_image
+from api.views import upload_audio
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -35,7 +36,8 @@ urlpatterns = [
     path('api/people/<int:pk>', PersonDetail.as_view()),
     path('api/404_error_test', test_404_handler),
     path('api/upload_doc', upload_document), 
-    path('api/upload_image', upload_image)
+    path('api/upload_image', upload_image),
+    path('api/upload_audio', upload_audio)
 ]
 
 # DEBUG must be set to 'False' in settings.py for this to work
