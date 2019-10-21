@@ -1,1 +1,3 @@
 Pillow
+my-voice-analysis
+pycountry
