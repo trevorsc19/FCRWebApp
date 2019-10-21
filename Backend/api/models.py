@@ -39,6 +39,3 @@ class Document(models.Model):
 
 class Image(models.Model):
     picture = models.ImageField(upload_to='images/')
-
-class Audio(models.Model):
-    audio = models.FileField(upload_to='audio/')
