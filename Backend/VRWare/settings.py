@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api'
+    'api', 
+    'audioanalysis'
 ]
 
 # Removed     'django.middleware.csrf.CsrfViewMiddleware', (https://stackoverflow.com/a/22812799/9599554)
