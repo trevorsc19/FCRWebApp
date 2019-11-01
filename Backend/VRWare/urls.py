@@ -23,6 +23,7 @@ from api.views import upload_document
 from api.views import upload_image
 # audio analysis app
 from audioanalysis.views import upload_audio
+from audioanalysis.views import test_speech
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -38,7 +39,8 @@ urlpatterns = [
     path('api/404_error_test', test_404_handler),
     path('api/upload_doc', upload_document), 
     path('api/upload_image', upload_image),
-    path('api/upload_audio', upload_audio)
+    path('api/upload_audio', upload_audio), 
+    path('api/test', test_speech)
 ]
 
 # DEBUG must be set to 'False' in settings.py for this to work

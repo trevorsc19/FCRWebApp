@@ -5,7 +5,11 @@ from django.views import View
 from audioanalysis import models
 from audioanalysis import forms
 from django.views.decorators.http import require_http_methods
+#import myspsolution as mysp
 
+def test_speech():
+    print("Testing spech")
+    
 
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
