@@ -7,8 +7,9 @@ from audioanalysis import forms
 from django.views.decorators.http import require_http_methods
 #import myspsolution as mysp
 
-def test_speech():
+def test_speech(request):
     print("Testing spech")
+    return HttpResponse
     
 
 # Create your views here.
