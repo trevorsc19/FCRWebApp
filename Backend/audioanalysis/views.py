@@ -5,10 +5,14 @@ from django.views import View
 from audioanalysis import models
 from audioanalysis import forms
 from django.views.decorators.http import require_http_methods
-#import myspsolution as mysp
+
+from audioanalysis import speech
+
 
 def test_speech(request):
-    print("Testing spech")
+    print("Testing speech")
+    p="OSR_us_000_0016_8k" # Audio File title
+    speech.run_overview(p)
     return HttpResponse()
     
 

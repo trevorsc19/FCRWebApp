@@ -1,7 +1,7 @@
-import myspsolution as mysp
+from audioanalysis import myspsolution as mysp
 
-p="OSR_us_000_0016_8k.wav"
-c=r"/home/logan/FCRWebApp/Backend/api/audioanalysis/test_files"
-
-def run_overview():
-    mysp.mysptotal(p, c)
+# path to the file's directory
+def run_overview(file_title, file_location=r"/home/logan/FCRWebApp/Backend/audioanalysis/test_files"):
+    print("RUNNING OVERVIEW")
+    print("Running analysis on " + file_location+"/"+file_title)
+    mysp.mysptotal(file_title, file_location)
