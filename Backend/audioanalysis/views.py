@@ -9,7 +9,7 @@ from django.views.decorators.http import require_http_methods
 
 def test_speech(request):
     print("Testing spech")
-    return HttpResponse
+    return HttpResponse()
     
 
 # Create your views here.
