@@ -7,6 +7,7 @@ class CSV:
 
     list_of_users = []
 
+    # get all the usernames from the CSV
     def __init__(self):
         print("in constructor")
         self.list_of_users = self.get_random_usernames()
@@ -48,6 +49,8 @@ class CSV:
                 country = row['country']
                 #args = [first_name, last_name, email, birth_date, country]
                 #person_to_save_to_database = Person(**args)
+                
+                # Create a user that will go in auth_user table. Will make one-to-one relationship with Person object
                 user_to_connect = self.create_random_user(email_from_person_object=email)
 
                 print("adding user")
@@ -66,6 +69,7 @@ class CSV:
         from api.models import Person
 
         username = self.list_of_users[0]['username']
+        # so we don't get any repeats
         del self.list_of_users[0] 
 
         password = User.objects.make_random_password()
@@ -119,7 +123,7 @@ class CSV:
                 SELECT * FROM \"auth_user\";""")
            
             for row in cursor.fetchall():
-                # we have to delete the user from the person table
+                # we have to delete the user from the person table (one to one relationship)
                 id = row[0]
                 cursor.execute("""
                     UPDATE \"PERSON_TABLE\" SET user_id = NULL WHERE user_id = (%s);""", [id])
