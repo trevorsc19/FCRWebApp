@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from audioanalysis.urls import urlpatterns as audio_urls
-from api.urls import urlpatterns as api_urls
+# audio analysis app
+from audioanalysis.views import upload_audio
+from audioanalysis.views import test_speech
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -25,9 +26,9 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 
 # pk will be the name of the parameter passed to the get() method. We can name this whatever we want.
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/upload_audio', upload_audio), 
+    path('api/test', test_speech)
 ]
 
-urlpatterns += audio_urls
-urlpatterns += api_urls
-
+# DEBUG must be set to 'False' in settings.py for this to work
+handler404='api.views.handle_404_method'

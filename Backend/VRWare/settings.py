@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from configparser import RawConfigParser
+import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,9 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'q*c06+=)tz%pcs=a5#*mcx&@zg$pmle-cdy*lxjgxq9ydgd=vi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# NOTE: 'False' removes styles from django-admin
+DEBUG = True # True by default. Needed to change it to False so that we can see what a live site would show 
 
-ALLOWED_HOSTS = []
+# was [] by default. Needed to change to 127.0.0.1 when we changed Debug to False
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -38,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api'
+    'api', 
+    'audioanalysis'
 ]
 
 # Removed     'django.middleware.csrf.CsrfViewMiddleware', (https://stackoverflow.com/a/22812799/9599554)
@@ -52,11 +56,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'VRWare.urls'
-
+print("BASES", BASE_DIR)
+# needed to add 'templates' so that Django will know to look for the new templates folder
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'api/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,6 +101,11 @@ DATABASES = {
     }
 }
 
+# For file uploads
+# The location of the iploaded file will be in MEDIA_ROOT/images
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# I don't think this is neeeed
+MEDIA_URL = '/media/'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -134,3 +144,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False, 
+    'handlers': {
+        'file': {
+            'level': 'DEBUG', 
+            'class': 'logging.FileHandler',
+            'filename': '/home/logan/FCRWebApp/Backend/logs/debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level':os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': True,
+        },
+    },
+}

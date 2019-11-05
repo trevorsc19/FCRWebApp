@@ -5,3 +5,5 @@ from api import models
 
 # This allows us to edit the models in the browser panel
 admin.site.register(models.Person)
+
+admin.site.register(models.Image)
