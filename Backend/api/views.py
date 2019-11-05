@@ -9,6 +9,7 @@ from django.db import connection
 from django.core import serializers
 from api import forms
 from django.views.decorators.http import require_http_methods
+import logging
 
 def my_custom_sql():
     with connection.cursor() as cursor:
@@ -70,6 +71,8 @@ Method Flowchart
 
 # Create your views here.
 
+logger = logging.getLogger(__name__)
+
 # docs.djangoproject.com/en/2.2/ref/class-based-views/
 # list of HTTP method names this view will accept ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
 
@@ -85,10 +88,10 @@ class PersonList(View):
         firstname_param = request.GET.get('first_name', None)
         country_param = request.GET.get('country', None)
         if request.GET.get('first_name') is not None:
-            print("first name query parameter found")
+            logger.info("first name query parameter found")
             queryset = queryset.filter(first_name__iexact=firstname_param)
         if request.GET.get('country') is not None:
-            print("country parameter found")
+            logger.info("country parameter found")
             queryset = queryset.filter(country__iexact=country_param)
         
         # An HttpResponse subclass that helps to create a JSON-encoded response
