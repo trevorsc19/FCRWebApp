@@ -7,25 +7,64 @@ class CSV:
 
     first_names = []
     last_names = []
+    birthdays = []
     usernames = []
+    email_prefix = ["@aol.com", "@gmail.com", "@outlook.com", "@yahoo.com"]
 
     # get all the usernames from the CSV
     def __init__(self):
         print("in constructor")
-        self.first_names, self.last_names = self.fill_name_lists()
+        self.first_names, self.last_names, self.birthdays = self.fill_name_lists()
         self.usernames = self.fill_usernames_list()
-        print(len(self.first_names))
-        print(len(self.last_names))
-        print(len(self.usernames))
-
-        
     
+    def insert_mock_data(self):
+        import csv
+        from api.models import Person
+        from django.db import connection
+        from django.contrib.auth.models import User
+        from api import definitions
+        import random
+        import pycountry
+               
+        #self.delete_all_users_except_admins()
+
+        for i in range(0, 1000):
+            first_name = random.choice(self.first_names)
+            last_name = random.choice(self.last_names)
+            # get first character of first name, full last name, 4 random numbers
+            nums = ''.join(str([random.randint(0,9) for p in range(0,4)]))
+            email = first_name[0][:1].lower()+last_name+nums+random.choice(self.email_prefix)
+            birth_date = random.choice(self.birthdays)
+            country = random.choice(list(pycountry.countries)).name
+            # Create a user that will go in auth_user table
+            user_one_to_one = self.create_random_user(email_from_profile_object=email)
+            #user_one_to_one.save()
+            profile = Person(user=user_one_to_one, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date, country=country)
+            print(profile)
+            #profile.save()
+
+    def create_random_user(self, email_from_profile_object):
+        import csv
+        from django.contrib.auth.models import User
+        from api.models import Person
+        import random
+
+        username = random.choice(self.usernames)
+        self.usernames.remove(username)
+
+        password = User.objects.make_random_password()
+        user = User.objects.create_user(username, password)
+        #Make sure that the person object and user it is tied to have the same email
+        user.email = email_from_profile_object
+        return user
+
     def fill_name_lists(self):
         import csv
         from api import definitions
 
         first_names = []
         last_names = []
+        birthdays = []
 
         with open(definitions.PERSON_DATA) as csvfile:
             reader = csv.DictReader(csvfile)
@@ -33,11 +72,16 @@ class CSV:
             for row in reader:
                 first_name = row['first_name']
                 last_name = row['last_name']
+                birth_date = row['birth_date']
                 first_names.append(first_name)
                 last_names.append(last_name)
+                birthdays.append(birth_date)
         
-        return first_names, last_names
+        return first_names, last_names, birthdays
 
+    def fill_birthdays_list(self):
+        pass
+    
     def fill_usernames_list(self, num_of_usernames=1000):
         import csv 
         from api import definitions
@@ -52,22 +96,67 @@ class CSV:
                 if (i >= num_of_usernames):
                     break
         return usernames
-                
-                
-                
-        
-    def insert_mock_data(self):
-        pass
+                       
+    def delete_all_users_except_admins(self):
+        from django.db import connection
 
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT * FROM \"auth_user\";""")
+           
+
+            for row in cursor.fetchall():
+                # delete the one-to-one relationship
+                id = row[0]
+                cursor.execute("""
+                    UPDATE \"PERSON_TABLE\" SET user_id = NULL WHERE user_id = (%s);""", [id])
+
+            
+            cursor.execute("DELETE FROM auth_user WHERE is_superuser IS FALSE")
+            for row in cursor.fetchall():
+                print(row[0]) # should print number of deleted rows
+            
+            
+
+        # Can also Use Django ORM
+        """
+        # Delete all users that aren't an admin
+        Users = User.objects.all()
+        for user in Users:
+            if user.is_superuser:
+                print(user.username + " is a superuser")
+            else:
+                pass
+                # user.delete()
+        """
+
+    def delete_all_persons(self):
+        from api.models import Person
+
+        for p in Person.objects.all():
+            p.delete()
+
+
+
+    def run_custom_sql(self):
+        from django.db import connection 
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT * FROM \"auth_user\";""")
+
+            for row in cursor.fetchall():
+                print(row[3])
+                
+            cursor.execute("""
+            SELECT * FROM \"auth_user\" LIMIT 1;""")
+            
+            for row in cursor.fetchall():
+                print(row[3])
+
+            
+    
 csvTest = CSV()
-
-#csvTest.sql_test()
-#csvTest.delete_most_users()
-# useres have to be in database before we use their id
-#csvTest.create_random_users()
 csvTest.insert_mock_data()
-#CSV.create_random_users()
-#CSV.insert_mock_data()    
-#CSV.delete_person_table()
 
-# in Python 3, don't need if __init__ == __main__
+
