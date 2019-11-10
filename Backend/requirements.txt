@@ -1,3 +1,5 @@
 Pillow
 my-voice-analysis
 pycountry
+django
+djangorestframework
