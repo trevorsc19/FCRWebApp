@@ -1,5 +1,5 @@
 from django import forms
-from api.models import COUNTRY_CHOICES
+from profile.models import COUNTRY_CHOICES
 
 # Form fields reference at docs.djangoproject.com/en/2.2/ref/forms/fields/
 

@@ -92,7 +92,7 @@ class CSV:
             reader = csv.DictReader(csvReader)
 
             for i, row in enumerate(reader):
-                usernames.append(row)
+                usernames.append(row['username'])
                 if (i >= num_of_usernames):
                     break
         return usernames
@@ -157,6 +157,7 @@ class CSV:
             
     
 csvTest = CSV()
+#csvTest.delete_all_users_except_admins()
 csvTest.insert_mock_data()
 
 
