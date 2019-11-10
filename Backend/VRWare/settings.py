@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api', 
+    'profile', 
     'audioanalysis'
 ]
 
@@ -61,7 +61,7 @@ print("BASES", BASE_DIR)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'api/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'profile/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

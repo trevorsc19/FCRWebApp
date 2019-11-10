@@ -8,9 +8,9 @@ import pycountry
 #https://medium.com/better-programming/list-comprehension-in-python-8895a785550b
 COUNTRY_CHOICES = [n.name for n in pycountry.countries]
 
-# By default, Django will create a table api_person
+# By default, Django will create a table profile_profile
 # Models fields reference: https://docs.djangoproject.com/en/2.2/ref/models/fields/
-class Person(models.Model):
+class Profile(models.Model):
     # adds a user_id column to the table
     user = models.OneToOneField(
         User, 
@@ -28,7 +28,7 @@ class Person(models.Model):
     country = models.CharField(null=True, default=None, max_length=100)
 
     class Meta:
-        db_table = "PERSON_TABLE"
+        db_table = "profile_table"
     
     # This runs when printing a Person object
     def __str__(self):
