@@ -28,13 +28,13 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 
 # pk will be the name of the parameter passed to the get() method. We can name this whatever we want.
 urlpatterns = [
-    path('profile/people/', PersonList.as_view()),
-    path('profile/people/<int:pk>', PersonDetail.as_view()),
+    path('profiles/people/', PersonList.as_view()),
+    path('profiles/people/<int:pk>', PersonDetail.as_view()),
     path('deletetable/', delete_table),
-    path('profile/people/<int:pk>', PersonDetail.as_view()),
-    path('profile/404_error_test', test_404_handler),
-    path('profile/upload_doc', upload_document), 
-    path('profile/upload_image', upload_image),
+    path('profiles/people/<int:pk>', PersonDetail.as_view()),
+    path('profiles/404_error_test', test_404_handler),
+    path('profiles/upload_doc', upload_document), 
+    path('profiles/upload_image', upload_image),
 ]
 
 # DEBUG must be set to 'False' in settings.py for this to work
