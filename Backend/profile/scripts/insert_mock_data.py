@@ -32,16 +32,15 @@ class CSV:
             first_name = random.choice(self.first_names)
             last_name = random.choice(self.last_names)
             # get first character of first name, full last name, 4 random numbers
-            nums = ''.join(str([random.randint(0,9) for p in range(0,4)]))
+            nums = ''.join([str(random.randint(0,9)) for p in range(0,4)])
             email = first_name[0][:1].lower()+last_name+nums+random.choice(self.email_prefix)
             birth_date = random.choice(self.birthdays)
             country = random.choice(list(pycountry.countries)).name
             # Create a user that will go in auth_user table
             user_one_to_one = self.create_random_user(email_from_profile_object=email)
-            #user_one_to_one.save()
             profile = Profile(user=user_one_to_one, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date, country=country)
-            print(profile)
-            #profile.save()
+            #print(profile)
+            profile.save()
 
     def create_random_user(self, email_from_profile_object):
         import csv
@@ -53,9 +52,8 @@ class CSV:
         self.usernames.remove(username)
 
         password = User.objects.make_random_password()
-        user = User.objects.create_user(username, password)
         #Make sure that the profile object and user it is tied to have the same email
-        user.email = email_from_profile_object
+        user = User.objects.create_user(username, email_from_profile_object, password)
         return user
 
     def fill_name_lists(self):

@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from profile.views import PersonList
-from profile.views import PersonDetail
+from profile.views import ProfileList
+from profile.views import ProfileDetail
 from profile.views import delete_table
 from profile.views import test_404_handler
 from profile.views import upload_document
@@ -28,10 +28,9 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 
 # pk will be the name of the parameter passed to the get() method. We can name this whatever we want.
 urlpatterns = [
-    path('profiles/people/', PersonList.as_view()),
-    path('profiles/people/<int:pk>', PersonDetail.as_view()),
+    path('profiles/people/', ProfileList.as_view()),
+    path('profiles/people/<int:pk>', ProfileDetail.as_view()),
     path('deletetable/', delete_table),
-    path('profiles/people/<int:pk>', PersonDetail.as_view()),
     path('profiles/404_error_test', test_404_handler),
     path('profiles/upload_doc', upload_document), 
     path('profiles/upload_image', upload_image),
