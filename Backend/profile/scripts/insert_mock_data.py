@@ -19,10 +19,10 @@ class CSV:
     
     def insert_mock_data(self):
         import csv
-        from api.models import Person
+        from profile.models import Profile
         from django.db import connection
         from django.contrib.auth.models import User
-        from api import definitions
+        from profile import definitions
         import random
         import pycountry
                
@@ -39,14 +39,14 @@ class CSV:
             # Create a user that will go in auth_user table
             user_one_to_one = self.create_random_user(email_from_profile_object=email)
             #user_one_to_one.save()
-            profile = Person(user=user_one_to_one, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date, country=country)
+            profile = Profile(user=user_one_to_one, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date, country=country)
             print(profile)
             #profile.save()
 
     def create_random_user(self, email_from_profile_object):
         import csv
         from django.contrib.auth.models import User
-        from api.models import Person
+        from profile.models import Profile
         import random
 
         username = random.choice(self.usernames)
@@ -54,13 +54,13 @@ class CSV:
 
         password = User.objects.make_random_password()
         user = User.objects.create_user(username, password)
-        #Make sure that the person object and user it is tied to have the same email
+        #Make sure that the profile object and user it is tied to have the same email
         user.email = email_from_profile_object
         return user
 
     def fill_name_lists(self):
         import csv
-        from api import definitions
+        from profile import definitions
 
         first_names = []
         last_names = []
@@ -84,7 +84,7 @@ class CSV:
     
     def fill_usernames_list(self, num_of_usernames=1000):
         import csv 
-        from api import definitions
+        from profile import definitions
 
         usernames = []
         
@@ -92,7 +92,7 @@ class CSV:
             reader = csv.DictReader(csvReader)
 
             for i, row in enumerate(reader):
-                usernames.append(row)
+                usernames.append(row['username'])
                 if (i >= num_of_usernames):
                     break
         return usernames
@@ -109,7 +109,7 @@ class CSV:
                 # delete the one-to-one relationship
                 id = row[0]
                 cursor.execute("""
-                    UPDATE \"PERSON_TABLE\" SET user_id = NULL WHERE user_id = (%s);""", [id])
+                    UPDATE \"profile_table\" SET user_id = NULL WHERE user_id = (%s);""", [id])
 
             
             cursor.execute("DELETE FROM auth_user WHERE is_superuser IS FALSE")
@@ -130,10 +130,10 @@ class CSV:
                 # user.delete()
         """
 
-    def delete_all_persons(self):
-        from api.models import Person
+    def delete_all_profiles(self):
+        from profile.models import Profile
 
-        for p in Person.objects.all():
+        for p in Profile.objects.all():
             p.delete()
 
 
@@ -157,6 +157,7 @@ class CSV:
             
     
 csvTest = CSV()
+#csvTest.delete_all_users_except_admins()
 csvTest.insert_mock_data()
 
 

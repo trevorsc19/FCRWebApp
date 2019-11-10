@@ -1,10 +1,10 @@
 from django import forms
-from api.models import COUNTRY_CHOICES
+from profile.models import COUNTRY_CHOICES
 
 # Form fields reference at docs.djangoproject.com/en/2.2/ref/forms/fields/
 
-# Used to validate Person model. Doesn't come from an actual form
-class PersonForm(forms.Form):
+# Used to validate Profile model. Doesn't come from an actual form
+class ProfileForm(forms.Form):
     # By default, each Field class assumes the value is required, so if you pass an empty value - either None or the empty string ("") - then clean() wil raise a ValidationError exception.
 
     first_name = forms.CharField(max_length=30, required=False)

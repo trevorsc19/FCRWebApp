@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from audioanalysis.urls import urlpatterns as audio_urls
-from api.urls import urlpatterns as api_urls
+from profile.urls import urlpatterns as profile_urls
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -29,5 +29,5 @@ urlpatterns = [
 ]
 
 urlpatterns += audio_urls
-urlpatterns += api_urls
+urlpatterns += profile_urls
 

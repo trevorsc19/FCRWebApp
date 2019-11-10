@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.views import View
-from api import models
+from profile import models
 import json 
-from api import status
+from profile import status
 from django.http import Http404
 from django.db import connection
 from django.core import serializers
-from api import forms
+from profile import forms
 from django.views.decorators.http import require_http_methods
 import logging
 
