@@ -18,6 +18,7 @@ from django.urls import path
 
 from audioanalysis.urls import urlpatterns as audio_urls
 from profile.urls import urlpatterns as profile_urls
+import login
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -26,6 +27,7 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 # pk will be the name of the parameter passed to the get() method. We can name this whatever we want.
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', login.login_view)
 ]
 
 urlpatterns += audio_urls
