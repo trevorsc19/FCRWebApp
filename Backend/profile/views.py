@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.views import View
 from profile import models
 import json 
-from profile import status
+#from profile import status
 from django.http import Http404
 from django.db import connection
 from django.core import serializers
@@ -13,6 +13,7 @@ import logging
 from profile.serializers import ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 def my_custom_sql():
     with connection.cursor() as cursor:
@@ -112,8 +113,10 @@ class ProfileDetail(APIView):
         return Response(serializer.data)
     
     def put(self, request, pk, format=None):
+        print("Updating")
         profile = self.get_object(pk)
-        serializer = ProfileSerializer(profile, data=request.data)
+        # Partial = True allows a Patch. django-rest-framework.org/api-guide/serializers/#partial-updates
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
