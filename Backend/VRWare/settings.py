@@ -102,6 +102,11 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':10
+}
+
 # For file uploads
 # The location of the iploaded file will be in MEDIA_ROOT/images
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
