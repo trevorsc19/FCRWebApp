@@ -13,12 +13,12 @@ def login_view(request):
     if user is not None:
         print("User is authenticated")
         login(request, user)
-        print("after login")
-        print(user.username)
-        
         return JsonResponse({
-            'username': reqeuest.user.username
+            'username': request.user.username, 
+            'email': request.user.email
         })
     
     else:
         print("User is NOT authenticated")
+
+# https://stackoverflow.com/questions/12615154/how-to-get-the-currently-logged-in-users-user-id-in-django
