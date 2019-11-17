@@ -3,3 +3,4 @@ my-voice-analysis
 pycountry
 django
 djangorestframework
+django-cors-headers
