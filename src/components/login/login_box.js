@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from 'styled-components';
+import Cookies from 'universal-cookie';
 
 const LoginContainer = styles.div`
     border: 2px solid red;
@@ -15,6 +16,9 @@ const LoginForm = styles.form`
         display: block;
     }
 `;
+
+const cookies = new Cookies();
+
 class LoginBox extends React.Component {
 
     constructor(props) {
@@ -32,6 +36,15 @@ class LoginBox extends React.Component {
         // send password to backend in a fetch() request
         console.log("Submitting");
 
+        //get initial token
+        fetch('http://127.0.0.1:800/login', {
+            method: "POST"
+
+        }).then(() => {
+            let cookie = cookies.get('csrftoken');
+            console.log("COOKIE", cookie);
+        });
+
         fetch("http://127.0.0.1:8000/login", {
             method: "POST", 
             headers: {
@@ -39,8 +52,15 @@ class LoginBox extends React.Component {
                 'Content-Type': 'application/json'
             }, 
             body: JSON.stringify({username: this.state.username, password: this.state.password})
-        }).then(res=>res.json())
-          .then(res => console.log(res));
+        }).then(function(response) {
+            // get Django cookie
+            let cookie = cookies.get('csrftoken')
+            console.log("COOKIE", cookie);
+            return response
+        })
+          .then(res=>res.json())
+          .then(res => console.log(res))
+          .catch(error => console.log("request failed with error", error))
     }
 
     onUsernameInputChange(e) {

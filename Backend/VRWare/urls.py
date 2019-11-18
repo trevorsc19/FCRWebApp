@@ -20,7 +20,6 @@ from audioanalysis.urls import urlpatterns as audio_urls
 from profile.urls import urlpatterns as profile_urls
 import login
 from VRWare import UsersView
-
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
 """
