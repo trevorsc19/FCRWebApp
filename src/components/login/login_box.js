@@ -37,13 +37,14 @@ class LoginBox extends React.Component {
         console.log("Submitting");
 
         //get initial token
-        fetch('http://127.0.0.1:800/login', {
-            method: "POST"
+        // fetch('http://127.0.0.1:800/login', {
+        //     method: "POST", 
+        //     credentials: 'same-origin'
 
-        }).then(() => {
-            let cookie = cookies.get('csrftoken');
-            console.log("COOKIE", cookie);
-        });
+        // }).then(() => {
+        //     let cookie = cookies.get('csrftoken');
+        //     console.log("COOKIE", cookie);
+        // }).catch(error=>console.log("darn an error"));
 
         fetch("http://127.0.0.1:8000/login", {
             method: "POST", 
@@ -54,9 +55,7 @@ class LoginBox extends React.Component {
             body: JSON.stringify({username: this.state.username, password: this.state.password})
         }).then(function(response) {
             // get Django cookie
-            let cookie = cookies.get('csrftoken')
-            console.log("COOKIE", cookie);
-            return response
+           return response;
         })
           .then(res=>res.json())
           .then(res => console.log(res))
