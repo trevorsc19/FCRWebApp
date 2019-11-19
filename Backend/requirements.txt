@@ -4,3 +4,4 @@ pycountry
 django
 djangorestframework
 django-cors-headers
+pyjwt
