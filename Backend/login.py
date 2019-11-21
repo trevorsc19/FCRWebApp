@@ -25,7 +25,7 @@ def login_view(request):
     except User.DoesNotExist: # if user not found or password is wrong
         return Response({'Error': "Invalid username/password"}, status="400")
   
-    if user.is_authenticated:
+    if request.user.is_authenticated:
         print("user is authenticated")
     else:
         print("User is not authenticated")
@@ -37,10 +37,11 @@ def login_view(request):
             'email': user.email
         }
 
-        jwt_token = {'token': jwt.encode(payload, "SECRET", headers={'exp': time.mktime(datetime.datetime.now().timetuple())})}
+        jwt_token = {'token': jwt.encode(payload, "SECRET", headers={'exp': 1574296200})}
+        print("Expiration date of token is " + str(datetime.datetime.now()))
         print("Sending following token to user:")
         print(jwt.decode(jwt_token['token'], 'SECRET', algorithms=['HS256']))
-    
         return Response(jwt_token, status=200, content_type="application/json")
+    
     else:
         return Response(json.dumps({"Error": "Invalid credentails"}), status=400, content_type="application/json")

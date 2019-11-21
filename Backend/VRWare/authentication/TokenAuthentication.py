@@ -47,18 +47,16 @@ class TokenAuthentication(BaseAuthentication):
     def authenticate_credentials(self, token):
         print("Authenticate credentials...")
         model = self.get_model()
-        payload = jwt.decode(token, 'SECRET_KEY') 
+        # Expiration time is automatically verified and raises ExpiredSignatureError if the expiration time is in the past
+        payload = jwt.decode(token, 'SECRET') 
         print("PAYLOAD")
         print(payload)
         email = payload['email']
         userid = payload['id']
-        msg = {'Error': 'Token mismatch', 'status':'401'}
+        #msg = {'Error': 'Token mismatch', 'status':'401'}
 
         try:
-            user = User.objects.get(email=email, id=userid, is_activte=true)
-
-            if not user.token['token'] == token:
-                raise exceptions.AuthenticationFailed(msg)
+            user = User.objects.get(email=email, id=userid)
         
         except jwt.ExpiredSignature or jwt.DecodeError or jwt.InvalidTokenError:
             return HttpResponse({'Error': 'Internal server error'}, status='500')
