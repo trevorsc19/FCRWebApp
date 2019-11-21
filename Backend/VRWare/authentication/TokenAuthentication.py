@@ -12,16 +12,20 @@ class TokenAuthentication(BaseAuthentication):
         return User
     
     def authenticate(self, request):
-        print("authenticating...")
+        print("authenticating user " + request.data['username'])
         auth = get_authorization_header(request).split()
+        print("Authorization header")
         for a in auth:
             print(a)
-        print("asdfasdf")
-        print(b'token')
+       
         #if not auth or auth[1].lower() != b'token':
          #   print("None")
           #  return None
         
+        if not auth:
+            print("No authorization header")
+            return None
+
         if len(auth) == 1:
             msg = 'Invalid token header. No credentials provided.'
             raise exceptions.AuthenticationFailed(msg)
@@ -37,10 +41,11 @@ class TokenAuthentication(BaseAuthentication):
         except UnicodeError:
             msg='Invalid token header. Token string should not contain invalid characters'
             raise exceptions.AuthenticationFailed(msg)
-
+                
         return self.authenticate_credentials(token)
         
     def authenticate_credentials(self, token):
+        print("Authenticate credentials...")
         model = self.get_model()
         payload = jwt.decode(token, 'SECRET_KEY') 
         print("PAYLOAD")

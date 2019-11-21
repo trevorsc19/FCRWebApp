@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 import jwt, json
 import datetime
+import time
 
 # Content-Type has to be set to application/json in postman
 @api_view(['POST'])
@@ -24,6 +25,11 @@ def login_view(request):
     except User.DoesNotExist: # if user not found or password is wrong
         return Response({'Error': "Invalid username/password"}, status="400")
   
+    if user.is_authenticated:
+        print("user is authenticated")
+    else:
+        print("User is not authenticated")
+
     if user:
         
         payload = {
@@ -31,7 +37,7 @@ def login_view(request):
             'email': user.email
         }
 
-        jwt_token = {'token': jwt.encode(payload, "SECRET", headers={'exp':1574120220})}
+        jwt_token = {'token': jwt.encode(payload, "SECRET", headers={'exp': time.mktime(datetime.datetime.now().timetuple())})}
         print("Sending following token to user:")
         print(jwt.decode(jwt_token['token'], 'SECRET', algorithms=['HS256']))
     
