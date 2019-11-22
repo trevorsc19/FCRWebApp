@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 import jwt, json
 import datetime
 import time
+import pytz
 
 # Content-Type has to be set to application/json in postman
 @api_view(['POST'])
@@ -37,10 +38,15 @@ def login_view(request):
             'email': user.email
         }
 
-        jwt_token = {'token': jwt.encode(payload, "SECRET", headers={'exp': 1574296200})}
-        print("Expiration date of token is " + str(datetime.datetime.now()))
+        to_exp = datetime.datetime.now() + datetime.timedelta(minutes=1)
+        unix_time = time.mktime(to_exp.timetuple())
+        jwt_token = {'token': jwt.encode(payload, "SECRET", 'HS256',headers={'exp': unix_time})}
+        # UTC to EST local time
+        print("Expiration date of token is " + str(to_exp.astimezone(pytz.timezone('US/Eastern'))))
         print("Sending following token to user:")
-        print(jwt.decode(jwt_token['token'], 'SECRET', algorithms=['HS256']))
+        print(jwt.decode(jwt_token['token'], 'SECRET', algorithms=['HS256'], options={'verify_exp': True}))
+        print("HEADERS")
+        print(jwt.get_unverified_header(jwt_token['token'])['exp'])
         return Response(jwt_token, status=200, content_type="application/json")
     
     else:
