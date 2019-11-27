@@ -4,6 +4,9 @@ from rest_framework.authentication import get_authorization_header, BaseAuthenti
 from django.contrib.auth.models import User
 import jwt, json
 
+# thinkster.io/tutorials/django-json-api/authentication (for creating custom user too)
+# medium article jyoti gautam 
+
 class TokenAuthentication(BaseAuthentication):
     print("AUTHENTICATION CLASS")
     model = None
@@ -48,7 +51,11 @@ class TokenAuthentication(BaseAuthentication):
         print("Authenticate credentials...")
         model = self.get_model()
         # Expiration time is automatically verified and raises ExpiredSignatureError if the expiration time is in the past
-        payload = jwt.decode(token, 'SECRET') 
+        try:
+            payload = jwt.decode(token, 'SECRET', algorithms=['HS256']) 
+        except jwt.ExpiredSignatureError:
+            print("Token expired. Please use refresh token to get a new one")
+            return HttpResponse({'Error': "Token is invalid"}, status=403)
         print("PAYLOAD")
         print(payload)
         email = payload['email']
