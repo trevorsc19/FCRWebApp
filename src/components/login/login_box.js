@@ -46,15 +46,17 @@ class LoginBox extends React.Component {
         //     console.log("COOKIE", cookie);
         // }).catch(error=>console.log("darn an error"));
 
+        var bearer_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzMwMzcsImVtYWlsIjoidGVzdGVAZ21haWwuY29tIiwiZXhwIjoxNTc1MjQwNjYyLjY1Mjk0MzF9.10gHpF6gQ3K-XIijFxDwPu5N5gTrg4C-N2wFBt5L_zc';
+        var bearer = 'Bearer ' + bearer_token;
         fetch("http://127.0.0.1:8000/login", {
             method: "POST", 
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': bearer
             }, 
             body: JSON.stringify({username: this.state.username, password: this.state.password})
         }).then(function(response) {
-            // get Django cookie
            return response;
         })
           .then(res=>res.json())

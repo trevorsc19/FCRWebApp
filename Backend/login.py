@@ -32,24 +32,27 @@ def login_view(request):
     else:
         print("User is not authenticated")
 
+    #exp_time = 60
+    exp_time = 500
     if user:
         
         payload = {
             'id': user.id,
             'email': user.email, 
-            'exp': time.time() + 60
+            'exp': time.time() + exp_time
         }
         
 
         to_exp = datetime.datetime.now() + datetime.timedelta(minutes=1)
         unix_time = time.mktime(to_exp.timetuple())
         #jwt_token = {'token': jwt.encode(payload, "SECRET", 'HS256',headers={'exp': unix_time})}
-        jwt_token = {'token': jwt.encode(payload, "SECRET", 'HS256')}
+        jwt_token = {'access_token': jwt.encode(payload, "SECRET", 'HS256'), 
+            'refresh_token': jwt.encode({'exp': time.time() + 1296000}, "SECRET", "HS256")} # refresh token will expire after 15 days
         #jwt_token = jwt.encode({'user_id':123, 'exp': time.time()+60},"SECRET", algorithm='HS256')
         # UTC to EST local time
         print("Expiration date of token is " + str(to_exp.astimezone(pytz.timezone('US/Eastern'))))
         print("Sending following token to user:")
-        print(jwt.decode(jwt_token['token'], 'SECRET', algorithms=['HS256']))
+        print(jwt.decode(jwt_token['access_token'], 'SECRET', algorithms=['HS256']))
         return Response(jwt_token, status=200, content_type="application/json")
     
     else:

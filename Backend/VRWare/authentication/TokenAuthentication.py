@@ -55,6 +55,7 @@ class TokenAuthentication(BaseAuthentication):
             payload = jwt.decode(token, 'SECRET', algorithms=['HS256']) 
         except jwt.ExpiredSignatureError:
             print("Token expired. Please use refresh token to get a new one")
+            # check for 403 in front end, send refresh token to get new access token
             return HttpResponse({'Error': "Token is invalid"}, status=403)
         print("PAYLOAD")
         print(payload)
