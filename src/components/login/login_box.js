@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from 'styled-components';
 import Cookies from 'universal-cookie';
+import { endpoint } from '../../constants.js'
 
 const LoginContainer = styles.div`
     border: 2px solid red;
@@ -11,7 +12,7 @@ const LoginContainer = styles.div`
 
 `;
 
-const LoginForm = styles.form`
+const LoginForm = styles.div`
     input {
         display: block;
     }
@@ -48,20 +49,22 @@ class LoginBox extends React.Component {
 
         var bearer_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzMwMzcsImVtYWlsIjoidGVzdGVAZ21haWwuY29tIiwiZXhwIjoxNTc1MjQwNjYyLjY1Mjk0MzF9.10gHpF6gQ3K-XIijFxDwPu5N5gTrg4C-N2wFBt5L_zc';
         var bearer = 'Bearer ' + bearer_token;
-        fetch("http://127.0.0.1:8000/login", {
+        fetch(endpoint+"login/", {
             method: "POST", 
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': bearer
+                //'Authorization': bearer
             }, 
             body: JSON.stringify({username: this.state.username, password: this.state.password})
         }).then(function(response) {
-           return response;
+            console.log(response.status)
+            return response;
         })
           .then(res=>res.json())
-          .then(res => console.log(res))
-          .catch(error => console.log("request failed with error", error))
+          .then(parsed => console.log(parsed))
+          .catch(error => alert(error))
+          //.catch(error => console.log("request failed with error", error))
     }
 
     onUsernameInputChange(e) {

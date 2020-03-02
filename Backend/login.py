@@ -12,6 +12,7 @@ import pytz
 @api_view(['POST'])
 def login_view(request):
     print("LOGIN VIEW")
+    
     if not request.data:
         return Response({'Error': "Please provide username/password"}, status="400")
     
@@ -19,12 +20,18 @@ def login_view(request):
     password = request.data['password']
     print("Username: {} password: {}".format(username, password))
     try:
+        print("1")
         user = User.objects.get(username=username)
+        print("2")
+        print(user)
+        print(user.check_password(password))
         
         if not user.check_password(password):
+            print("User was found, but password is incorrect")
             raise User.DoesNotExist
 
     except User.DoesNotExist: # if user not found or password is wrong
+        raise User.DoesNotExist
         return Response({'Error': "Invalid username/password"}, status="400")
   
     if request.user.is_authenticated:
@@ -56,4 +63,5 @@ def login_view(request):
         return Response(jwt_token, status=200, content_type="application/json")
     
     else:
+        print("Returning error to view")
         return Response(json.dumps({"Error": "Invalid credentails"}), status=400, content_type="application/json")
