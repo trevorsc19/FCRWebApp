@@ -59,6 +59,7 @@ class LoginBox extends React.Component {
             body: JSON.stringify({username: this.state.username, password: this.state.password})
         }).then(function(response) {
             console.log(response.status)
+            console.log(response);
             return response;
         })
           .then(res=>res.json())

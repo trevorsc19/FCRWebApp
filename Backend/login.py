@@ -31,7 +31,7 @@ def login_view(request):
             raise User.DoesNotExist
 
     except User.DoesNotExist: # if user not found or password is wrong
-        raise User.DoesNotExist
+        # raise User.DoesNotExist
         return Response({'Error': "Invalid username/password"}, status="400")
   
     if request.user.is_authenticated:
