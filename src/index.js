@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import TestPage from './components/pages/testpage.js';
 import Home from "./components/pages/home";
 import Contact from "./components/pages/contact";
 import LoginRegister from "./components/pages/loginregister";
-import { API_URL } from '../../constants.js'
+import { API_URL } from './constants.js';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
+import TestPage from './components/authentication/testpage.js'
 
 import {
     BrowserRouter as Router,

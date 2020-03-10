@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookie from 'js-cookie';
 import styled from 'styled-components';
+import { API_URL } from '../../constants.js';
 
 const Container = styled.div`
     p {
