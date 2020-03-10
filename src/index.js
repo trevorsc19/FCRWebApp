@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import TestPage from './components/pages/testpage.js';
 import Home from "./components/pages/home";
 import Contact from "./components/pages/contact";
 import LoginRegister from "./components/pages/loginregister";
 import { API_URL } from '../../constants.js'
+import styled from 'styled-components';
+import Cookies from 'js-cookie';
 
 import {
     BrowserRouter as Router,
@@ -97,7 +100,6 @@ const Main = styled.main`
 const Hello = () => {
     return (
         <Container>
-            <NavBar />
             <Main>
                 <h1>Hello</h1>
             </Main>
@@ -108,7 +110,6 @@ const Hello = () => {
 const HelloThere = () => {
     return (
         <Container>
-            <NavBar />
             <Main>
                 <h1>Hello There</h1>
             </Main>
@@ -122,40 +123,12 @@ const Protected = () => {
     return (
         <Container>
             <Main>
-                <NavBar />
                 <h1>You are signed in, </h1>
             </Main>
         </Container>
     )
 
 }
-
-const StyledNavBar = styled.nav`
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: grey;
-    overflow-x: hidden;
-    padding-top: 20px;
-    ul {
-        list-style: none;
-    
-        a {
-            text-decoration: none;
-            :&:hover,
-            :&:focus, 
-            :&:active,
-            :&:visited {
-                cursor: pointed;
-                color: #000;
-            }
-        }
-    }
-`;
-
 
 function App() {
 
