@@ -17,32 +17,20 @@ const Container = styled.div`
 	}
 `;
 
-const StyledSignInForm = styled.form`
+const StyledRegisterForm = styled.form`
     width: 300px;
     margin: 0 auto;
-    // border: 2px solid blue;
+    border: 2px solid blue;
     border-radius: 5px;
 
-	/*
+	
     input[type="password"],
 	input[type="text"] {
 		width: 100%;
-		padding: 15px;
-		border: 1px solid #dddddd;
-		margin-bottom: 15px;
-		box-sizing:border-box;
-	}
-	*/
-    
-	input[type="submit"] {
-		width: 100%;
-		padding: 15px;
-		background-color: #535b63;
-		border: 0;
-		box-sizing: border-box;
-		cursor: pointer;
-		font-weight: bold;
-		color: #ffffff;
+        padding: 15px;
+        border: 1px solid #dddddd;
+        margin-bottom: 15px;
+        box-sizing: border-box;
 	}
 
 `;
@@ -96,15 +84,16 @@ const RegisterForm = (props) => {
 
     return (
         <Container>
-            <h1>Register</h1>
-			<p>Please create an account</p>
-
-            <StyledSignInForm>
-				<TextField id="outlined-basic" label="Username" variant="outlined" required onChange={handleUserNameInputChange} />
-				<TextField id="outlined-basic" label="Password" variant="outlined" type="password" required onChange={handlePasswordInputChange} />
-				<TextField id="outlined-basic" label="Email" variant="outlined" required onChange={handleEmailInputChange} />
+            
+            <StyledRegisterForm>
+				<h1>Register</h1>
+				<p>Please create an account</p>
+				
+				<input type="text" placeholder="Username" required onChange={handleUserNameInputChange} />
+				<input type="password" placeholder="Password" required onChange={handlePasswordInputChange} />
+				<input type="text" placeholder="Email" required onChange={handleEmailInputChange} />
 				<SubmitButton onClick={handleLogin}>Submit</SubmitButton>
-            </StyledSignInForm>
+            </StyledRegisterForm>
         </Container>
     );
 }

@@ -4,6 +4,8 @@ import Cookies from 'js-cookie';
 import { endpoint } from '../../constants.js'
 
 const Container = styled.div`
+    //height: 100vh;
+    
     h1 {
         text-align: center;
         color: #4d4d4d;
@@ -15,6 +17,9 @@ const Container = styled.div`
 const StyledLoginForm = styled.form`
     width: 300px; 
     margin: 0 auto;
+    position: relative;
+    top: 50%;
+    border: 2px solid red;
 
     input[type="password"],
     input[type="text"] {
@@ -23,7 +28,6 @@ const StyledLoginForm = styled.form`
         border: 1px solid #dddddd;
         margin-bottom: 15px;
         box-sizing: border-box;
-
     }
 
     input[type="submit"] {
@@ -61,29 +65,30 @@ const LoginForm = (props) => {
 
     function handleLogin(e) {
         console.log("Sending data");
-        console.log(userName);
-        console.log(password);
+        console.log(JSON.stringify({userName: userName, password: password}));
 
-        fetch(endpoint+"login/", {
+        //fetch(endpoint+"login/", {
+        fetch('http://127.0.0.1:8000/login/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({userName: userName, password: password})
+            body: JSON.stringify({username: userName, password: password})
         })
         .then(response => response.json())
-        .then(response => {
-            console.log('Response', response);
-            Cookies.set('token', response['token']);
+        .then(parsedResponse => {
+            console.log('Response', parsedResponse);
+            Cookies.set('token', parsedResponse['token']);
         });
     }
 
     return (
         <Container>
-            <h1>Login</h1>
 
             <StyledLoginForm>
+                <h1>Login</h1>
+
                 <input type="text" name="username" placeholder="Username" value={userName} required onChange={handleUserNameInputChange} />
                 <input type="password" name="password" placeholder="Password" required onChange={handlePasswordInputChange} />
                 <SubmitButton onClick={handleLogin}>Submit</SubmitButton>
