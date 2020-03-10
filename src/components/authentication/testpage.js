@@ -58,7 +58,7 @@ class TestPage extends React.Component {
     sendToken() {
         console.log('Sending token...', this.state.cookie);
 
-        fetch(endpoint+"tokentest/", {
+        fetch(API_URL+"tokentest/", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

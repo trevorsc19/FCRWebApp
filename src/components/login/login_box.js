@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from 'styled-components';
 import Cookies from 'universal-cookie';
-import { endpoint } from '../../constants.js'
+import { API_URL } from '../../constants.js'
 
 const LoginContainer = styles.div`
     border: 2px solid red;
@@ -49,7 +49,7 @@ class LoginBox extends React.Component {
 
         var bearer_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzMwMzcsImVtYWlsIjoidGVzdGVAZ21haWwuY29tIiwiZXhwIjoxNTc1MjQwNjYyLjY1Mjk0MzF9.10gHpF6gQ3K-XIijFxDwPu5N5gTrg4C-N2wFBt5L_zc';
         var bearer = 'Bearer ' + bearer_token;
-        fetch(endpoint+"login/", {
+        fetch(API_URL+"login/", {
             method: "POST", 
             headers: {
                 'Accept': 'application/json',

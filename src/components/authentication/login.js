@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
-import { endpoint } from '../../constants.js'
+import { API_URL } from '../../constants.js'
 
 const Container = styled.div`
     //height: 100vh;
@@ -20,6 +20,7 @@ const StyledLoginForm = styled.form`
     position: relative;
     top: 50%;
     border: 2px solid red;
+    padding-bottom: 75px;
 
     input[type="password"],
     input[type="text"] {
@@ -67,8 +68,7 @@ const LoginForm = (props) => {
         console.log("Sending data");
         console.log(JSON.stringify({userName: userName, password: password}));
 
-        //fetch(endpoint+"login/", {
-        fetch('http://127.0.0.1:8000/login/', {
+        fetch(API_URL+"login/", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

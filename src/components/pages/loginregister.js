@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import LoginForm from '../authentication/login.js';
 import RegisterForm from '../authentication/register.js';
-import { endpoint } from '../../constants.js'
+import { API_URL } from '../../constants.js'
 
 const Container = styled.div`
     h1 {

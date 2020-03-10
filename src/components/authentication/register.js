@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
-import { endpoint } from '../../constants.js'
+import { API_URL } from '../../constants.js'
 
 
 const Container = styled.div`
@@ -67,7 +67,7 @@ const RegisterForm = (props) => {
 		console.log("Sending data");
 		console.log(userName);
 		console.log(password);
-		fetch(endpoint+"register/", {
+		fetch(API_URL+"register/", {
 			method: 'POST',
 			headers: {
 				'Accept':'application/json',
@@ -88,7 +88,7 @@ const RegisterForm = (props) => {
             <StyledRegisterForm>
 				<h1>Register</h1>
 				<p>Please create an account</p>
-				
+
 				<input type="text" placeholder="Username" required onChange={handleUserNameInputChange} />
 				<input type="password" placeholder="Password" required onChange={handlePasswordInputChange} />
 				<input type="text" placeholder="Email" required onChange={handleEmailInputChange} />
