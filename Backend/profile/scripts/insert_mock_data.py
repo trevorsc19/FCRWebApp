@@ -3,7 +3,7 @@ This is different from insert_into_database.py.  This file takes a csv that was 
 """
 # python manage.py shell < insert_mock_data.py
 
-class CSV:
+class FakeData:
 
     first_names = []
     last_names = []
@@ -25,16 +25,25 @@ class CSV:
         from profile import definitions
         import random
         import pycountry
-               
+        from faker import Faker
+        from datetime import datetime
+
+
         #self.delete_all_users_except_admins()
 
+        fake = Faker(['en_US']) 
+
         for i in range(0, 1000):
-            first_name = random.choice(self.first_names)
-            last_name = random.choice(self.last_names)
+            first_name = fake.first_name()
+            last_name = fake.last_name()
+            
             # get first character of first name, full last name, 4 random numbers
             nums = ''.join([str(random.randint(0,9)) for p in range(0,4)])
             email = first_name[0][:1].lower()+last_name+nums+random.choice(self.email_prefix)
-            birth_date = random.choice(self.birthdays)
+
+            # 1994-12-21
+
+            fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115).strftime('%Y-%m-%d')
             country = random.choice(list(pycountry.countries)).name
             # Create a user that will go in auth_user table
             user_one_to_one = self.create_random_user(email_from_profile_object=email)
@@ -54,31 +63,7 @@ class CSV:
         password = User.objects.make_random_password()
         #Make sure that the profile object and user it is tied to have the same email
         user = User.objects.create_user(username, email_from_profile_object, password)
-        return user
-
-    def fill_name_lists(self):
-        import csv
-        from profile import definitions
-
-        first_names = []
-        last_names = []
-        birthdays = []
-
-        with open(definitions.PERSON_DATA) as csvfile:
-            reader = csv.DictReader(csvfile)
-
-            for row in reader:
-                first_name = row['first_name']
-                last_name = row['last_name']
-                birth_date = row['birth_date']
-                first_names.append(first_name)
-                last_names.append(last_name)
-                birthdays.append(birth_date)
-        
-        return first_names, last_names, birthdays
-
-    def fill_birthdays_list(self):
-        pass
+        return userqq
     
     def fill_usernames_list(self, num_of_usernames=1000):
         import csv 
@@ -154,7 +139,7 @@ class CSV:
 
             
     
-csvTest = CSV()
+fake_data = FakeData()
 #csvTest.delete_all_users_except_admins()
 csvTest.insert_mock_data()
 
