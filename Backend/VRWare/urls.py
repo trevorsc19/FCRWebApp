@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login.login_view),
     path('users/', UsersView.UserList.as_view()),
-    path('users/<int:pk>', UsersView.UserDetail.as_view()),
+    path('users/<int:user_id>', UsersView.UserDetail.as_view()),
 ]
 
 urlpatterns += audio_urls

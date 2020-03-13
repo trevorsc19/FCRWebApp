@@ -1,11 +1,6 @@
 from rest_framework import serializers
 from profile.models import Profile, COUNTRY_CHOICES
-from django.contrib.auth.models import User
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'id']
+from VRWare.userserializers import UserSerializer
 
 class ProfileSerializer(serializers.Serializer):
     # Define the fields that get serialzied/deserialzied
