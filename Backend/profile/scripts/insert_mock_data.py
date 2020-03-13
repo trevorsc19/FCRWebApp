@@ -2,20 +2,20 @@
 This is different from insert_into_database.py.  This file takes a csv that was generaetd randomly on mockaroo.com
 """
 # python manage.py shell < insert_mock_data.py
+import time;
 
 class FakeData:
 
-    first_names = []
-    last_names = []
-    birthdays = []
     usernames = []
     email_prefix = ["@aol.com", "@gmail.com", "@outlook.com", "@yahoo.com"]
 
     # get all the usernames from the CSV
     def __init__(self):
+        from django.db import connection
+
         print("in constructor")
-        self.first_names, self.last_names, self.birthdays = self.fill_name_lists()
         self.usernames = self.fill_usernames_list()
+       
     
     def insert_mock_data(self):
         import csv
@@ -42,14 +42,14 @@ class FakeData:
             email = first_name[0][:1].lower()+last_name+nums+random.choice(self.email_prefix)
 
             # 1994-12-21
-
-            fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115).strftime('%Y-%m-%d')
+            birth_date = fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115).strftime('%Y-%m-%d')
             country = random.choice(list(pycountry.countries)).name
             # Create a user that will go in auth_user table
             user_one_to_one = self.create_random_user(email_from_profile_object=email)
             profile = Profile(user=user_one_to_one, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date, country=country)
             #print(profile)
             profile.save()
+            print("Created user " + str(i))
 
     def create_random_user(self, email_from_profile_object):
         import csv
@@ -63,7 +63,7 @@ class FakeData:
         password = User.objects.make_random_password()
         #Make sure that the profile object and user it is tied to have the same email
         user = User.objects.create_user(username, email_from_profile_object, password)
-        return userqq
+        return user
     
     def fill_usernames_list(self, num_of_usernames=1000):
         import csv 
@@ -87,9 +87,15 @@ class FakeData:
             cursor.execute("""
                 SELECT * FROM \"auth_user\";""")
            
-
+            # or can just run  UPDATE profile_table SET user_id = NULL; then DELETE FROM auth_user WHERE is_superuser IS FALSE;
             for row in cursor.fetchall():
-                # delete the one-to-one relationship
+                """
+                    delete the one-to-one relationship
+
+                    ERROR:  update or delete on table "auth_user" violates foreign key constraint "profile_table_user_id_fd445281_fk_auth_user_id" on table "profile_table"
+                    DETAIL:  Key (id)=(33044) is still referenced from table "profile_table".
+
+                """
                 id = row[0]
                 cursor.execute("""
                     UPDATE \"profile_table\" SET user_id = NULL WHERE user_id = (%s);""", [id])
@@ -137,10 +143,34 @@ class FakeData:
             for row in cursor.fetchall():
                 print(row[3])
 
+    def print_all_users(self):
+        from django.db import connection 
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT * FROM "auth_user";""")           
+
+            for row in cursor.fetchall():
+                print(row)
+
+    def delete_all_users_and_profiles(self):
+        from django.db import connection
+
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE profile_table SET user_id = NULL")
+            cursor.execute("DELETE FROM auth_user WHERE is_superuser is FALSE")
+            cursor.execute("DELETE FROM profile_table")
+
+
             
-    
+
 fake_data = FakeData()
-#csvTest.delete_all_users_except_admins()
-csvTest.insert_mock_data()
+#fake_data.delete_all_users_except_admins()
+fake_data.delete_all_users_and_profiles()
+start_time = time.time()
+fake_data.insert_mock_data()
+print('It took {0:0.1f} seconds'.format(time.time() - start_time))
+print("Finished")
+#fake_data.print_all_users()
 
 
