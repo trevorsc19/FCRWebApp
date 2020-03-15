@@ -21,7 +21,7 @@ class FakeData:
         import csv
         from profile.models import Profile
         from django.db import connection
-        from django.contrib.auth.models import User
+        # from django.contrib.auth.models import User
         from profile import definitions
         import random
         import pycountry
@@ -53,7 +53,7 @@ class FakeData:
 
     def create_random_user(self, email_from_profile_object):
         import csv
-        from django.contrib.auth.models import User
+        from users.models import CustomUser as User
         from profile.models import Profile
         import random
 
@@ -166,7 +166,7 @@ class FakeData:
 
 fake_data = FakeData()
 #fake_data.delete_all_users_except_admins()
-fake_data.delete_all_users_and_profiles()
+#fake_data.delete_all_users_and_profiles()
 start_time = time.time()
 fake_data.insert_mock_data()
 print('It took {0:0.1f} seconds'.format(time.time() - start_time))

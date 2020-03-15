@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from users.models import CustomUser
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 from rest_framework import generics
@@ -6,12 +7,12 @@ from users.serializers import UserSerializer
 
 # https://stackoverflow.com/questions/16857450/how-to-register-users-in-django-rest-framework
 class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     authentication_classes = []
 
 class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'user_id'
     authentication_classes = []
@@ -24,3 +25,7 @@ class UserDetail(generics.RetrieveAPIView):
         user = User.objects.get(pk=self.kwargs['user_id'])
         print(user)
         return user
+
+class CreateUser(generics.CreateAPIView):
+    print("Creating user")
+    serializer_class = UserSerializer

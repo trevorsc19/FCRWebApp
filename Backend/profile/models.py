@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from users.models import CustomUser
 from django.contrib.auth.models import AbstractUser
 
 # pip install pycountry (once activating virtual environment)
@@ -13,7 +14,7 @@ COUNTRY_CHOICES = [n.name for n in pycountry.countries]
 class Profile(models.Model):
     # adds a user_id column to the table
     user = models.OneToOneField(
-        User, 
+        CustomUser, 
         on_delete=models.CASCADE, 
         null=True
     )

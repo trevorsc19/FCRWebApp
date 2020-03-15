@@ -82,6 +82,9 @@ logger = logging.getLogger(__name__)
 # "REST framework provides an APIView class, which subclasses Django's View class"
 # "Using the APIView class is pretty much the same as using a regular View class, as usual, the incoming request is dispatched to an appropriate handler method"
 class ProfileList(APIView):
+
+    authentication_classes = []
+
     """
     List all profiles, or create a new one
     """

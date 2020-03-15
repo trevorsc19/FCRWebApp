@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'profile', 
     'audioanalysis',
+    'users',
     'corsheaders'
 ]
 
@@ -115,6 +116,8 @@ REST_FRAMEWORK = {
         'VRWare.authentication.TokenAuthentication.TokenAuthentication'
     ]
 }
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # For file uploads
 # The location of the iploaded file will be in MEDIA_ROOT/images
