@@ -18,8 +18,9 @@ from django.urls import path
 
 from audioanalysis.urls import urlpatterns as audio_urls
 from profile.urls import urlpatterns as profile_urls
+from users.urls import urlpatterns as users_urls
 import login
-from VRWare import UsersView
+
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
 """
@@ -28,11 +29,9 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login.login_view),
-    path('users/', UsersView.UserList.as_view()),
-    path('users/<int:user_id>', UsersView.UserDetail.as_view()),
 ]
 
 urlpatterns += audio_urls
 urlpatterns += profile_urls
-
+urlpatterns += users_urls
 

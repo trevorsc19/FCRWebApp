@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from profile.models import Profile, COUNTRY_CHOICES
-from VRWare.userserializers import UserSerializer
+from users.serializers import UserSerializer
 
 class ProfileSerializer(serializers.Serializer):
     # Define the fields that get serialzied/deserialzied
