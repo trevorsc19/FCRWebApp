@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 from rest_framework import generics
 from users.serializers import UserSerializer
+from VRWare.authentication.TokenAuthentication import TokenAuthentication
 
 # https://stackoverflow.com/questions/16857450/how-to-register-users-in-django-rest-framework
 class UserList(generics.ListAPIView):
@@ -27,5 +28,5 @@ class UserDetail(generics.RetrieveAPIView):
         return user
 
 class CreateUser(generics.CreateAPIView):
-    print("Creating user")
+    print(UserSerializer)
     serializer_class = UserSerializer
