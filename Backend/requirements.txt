@@ -3,3 +3,8 @@ my-voice-analysis
 pycountry
 django
 djangorestframework
+django-cors-headers
+pyjwt
+pytz
+django-cors-headers
+faker

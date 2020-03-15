@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.views import View
 from profile import models
 import json 
-from profile import status
+#from profile import status
 from django.http import Http404
 from django.db import connection
 from django.core import serializers
@@ -13,6 +13,7 @@ import logging
 from profile.serializers import ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 def my_custom_sql():
     with connection.cursor() as cursor:
@@ -78,8 +79,12 @@ logger = logging.getLogger(__name__)
 
 # docs.djangoproject.com/en/2.2/ref/class-based-views/
 # list of HTTP method names this view will accept ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
-
+# "REST framework provides an APIView class, which subclasses Django's View class"
+# "Using the APIView class is pretty much the same as using a regular View class, as usual, the incoming request is dispatched to an appropriate handler method"
 class ProfileList(APIView):
+
+    authentication_classes = []
+
     """
     List all profiles, or create a new one
     """
@@ -112,8 +117,10 @@ class ProfileDetail(APIView):
         return Response(serializer.data)
     
     def put(self, request, pk, format=None):
+        print("Updating")
         profile = self.get_object(pk)
-        serializer = ProfileSerializer(profile, data=request.data)
+        # Partial = True allows a Patch. django-rest-framework.org/api-guide/serializers/#partial-updates
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

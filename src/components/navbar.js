@@ -34,6 +34,9 @@ function Navbar() {
                 <li>
                   <a href="./audioRecording">Practice</a>
                 </li>
+                <li>
+                  <a href="./login">Login</a>
+                </li>
               </ul>
             </div>
           </nav>
