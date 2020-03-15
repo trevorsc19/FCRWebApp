@@ -29,6 +29,7 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login.login_view),
+    path('tokentest/', login.token_test)
 ]
 
 urlpatterns += audio_urls

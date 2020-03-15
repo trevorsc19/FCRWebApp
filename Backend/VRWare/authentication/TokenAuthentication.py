@@ -1,7 +1,8 @@
 from rest_framework import status
 from django.http import HttpResponse
 from rest_framework.authentication import get_authorization_header, BaseAuthentication
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from users.models import CustomUser
 import jwt, json
 
 # thinkster.io/tutorials/django-json-api/authentication (for creating custom user too)
@@ -12,7 +13,7 @@ class TokenAuthentication(BaseAuthentication):
     model = None
 
     def get_model(self):
-        return User
+        return CustomUser
     
     def authenticate(self, request):
         print("authenticating user " + request.data['username'])
@@ -64,7 +65,7 @@ class TokenAuthentication(BaseAuthentication):
         #msg = {'Error': 'Token mismatch', 'status':'401'}
 
         try:
-            user = User.objects.get(email=email, id=userid)
+            user = CustomUser.objects.get(email=email, id=userid)
         
         except jwt.ExpiredSignature or jwt.DecodeError or jwt.InvalidTokenError:
             return HttpResponse({'Error': 'Internal server error'}, status='500')

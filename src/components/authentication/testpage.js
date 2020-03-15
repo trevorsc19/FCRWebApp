@@ -39,7 +39,7 @@ class TestPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            "cookie": Cookie.get("token") ? Cookie.get("token") : null,
+            "access_token_cookie": Cookie.get("token") ? Cookie.get("token") : null,
             "user_info": null
         }
         this.deleteCookies = this.deleteCookies.bind(this);
@@ -83,7 +83,7 @@ class TestPage extends React.Component {
         return(
             <Container>
                 <h1>Test Page</h1>
-                <p>{this.state.cookie}</p>
+                <p>access token: {this.state.access_token_cookie}</p>
                 <ButtonsContainer>
                     <DeleteCookiesButton onClick={this.deleteCookies}>Delete Cookie</DeleteCookiesButton>
                     <SendTokenButton onClick={this.sendToken}>Send Token</SendTokenButton>

@@ -2,7 +2,8 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from users.models import CustomUser
 import jwt, json
 import datetime
 import time
@@ -11,6 +12,7 @@ import pytz
 # Content-Type has to be set to application/json in postman
 @api_view(['POST'])
 def login_view(request):
+
     print("LOGIN VIEW")
     
     if not request.data:
@@ -21,7 +23,7 @@ def login_view(request):
     print("Username: {} password: {}".format(username, password))
     try:
         print("1")
-        user = User.objects.get(username=username)
+        user = CustomUser.objects.get(username=username)
         print("2")
         print(user)
         print(user.check_password(password))
@@ -30,7 +32,7 @@ def login_view(request):
             print("User was found, but password is incorrect")
             raise User.DoesNotExist
 
-    except User.DoesNotExist: # if user not found or password is wrong
+    except CustomUser.DoesNotExist: # if user not found or password is wrong
         # raise User.DoesNotExist
         return Response({'Error': "Invalid username/password"}, status="400")
   
@@ -43,7 +45,7 @@ def login_view(request):
     exp_time = 500
     if user:
         
-        payload = {
+        payload = { 
             'id': user.id,
             'email': user.email, 
             'exp': time.time() + exp_time
@@ -54,7 +56,7 @@ def login_view(request):
         unix_time = time.mktime(to_exp.timetuple())
         #jwt_token = {'token': jwt.encode(payload, "SECRET", 'HS256',headers={'exp': unix_time})}
         jwt_token = {'access_token': jwt.encode(payload, "SECRET", 'HS256'), 
-            'refresh_token': jwt.encode({'exp': time.time() + 1296000}, "SECRET", "HS256")} # refresh token will expire after 15 days
+            'refresh_token': jwt.encode({'exp': time.time() + 120}, "SECRET", "HS256")} # refresh token will expire after 15 days (1296000 seconds)
         #jwt_token = jwt.encode({'user_id':123, 'exp': time.time()+60},"SECRET", algorithm='HS256')
         # UTC to EST local time
         print("Expiration date of token is " + str(to_exp.astimezone(pytz.timezone('US/Eastern'))))
@@ -65,3 +67,7 @@ def login_view(request):
     else:
         print("Returning error to view")
         return Response(json.dumps({"Error": "Invalid credentails"}), status=400, content_type="application/json")
+
+@api_view(['POST'])
+def token_test(request):
+    print("Testing token....")

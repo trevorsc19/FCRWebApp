@@ -79,7 +79,7 @@ const LoginForm = (props) => {
         .then(response => response.json())
         .then(parsedResponse => {
             console.log('Response', parsedResponse);
-            Cookies.set('token', parsedResponse['token']);
+            Cookies.set('token', parsedResponse['access_token']);
         });
     }
 
