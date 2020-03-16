@@ -3,61 +3,33 @@ import styled from 'styled-components';
 import Preloader from "./../preloader";
 import Navbar from "./../navbar";
 import { ReactMic } from 'react-mic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlayCircle, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import AudioRecordingModal from '../audio/recordingmodal.js';
 
 const Container = styled.div`
 
 `;
 
+const RecordIcon = styled(FontAwesomeIcon)`
+    color: #F50057;
+    cursor: pointer;
+    
+    &:hover {
+        color: #8B0000;
+    }
+`;
+
 const AudioRecording = (props) => {
-    const [record, setRecord] = useState(false);
-    const [blob, setBlob] = useState('');
-    const [showAudioPlayer, setShowAudioPlayer] = useState(false);
 
-    let startRecording = () => {
-        console.log('recording...');
-        setRecord(true);
-    }
+    const [showRecordingModal, setShowRecordingModal] = useState(false);
 
-    function stopRecording() {
-        setRecord(false)
-    }
-
-    function onData(recordedBlob) {
-        console.log('Chunk of real-time data is: ', recordedBlob);
-    }
-
-    function onStop(recordedBlob) {
-        console.log('recordedBlob is: ', recordedBlob);
-        console.log('URL', recordedBlob.blobURL);
-        setBlob(recordedBlob.blobURL);
-        setShowAudioPlayer(true);
-    }
-
-    let audioPlayer;
-
-    if (showAudioPlayer === true) {
-        audioPlayer = <audio controls="controls" src={blob} type="audio/wav" />
-    } else {
-        audioPlayer = null;
-    }
-
+    let startRecording = () => setShowRecordingModal(true);
 
     return (
         <Container>
-            <ReactMic
-                record={record}
-                pause={false}
-                onStop={onStop}
-                onData={onData}
-                strokeColor={'#000000'}
-                backgroundColor={'#FF4081'}
-                mimeType={'audio/wav'}
-                bufferSize={'2048'}
-                sampleRate={'44100'}
-            />
-            <button onClick={startRecording} type="button">Start</button>
-            <button onClick={stopRecording} type="button">Stop</button>
-            {audioPlayer}
+            <RecordIcon onClick={startRecording} icon={faMicrophone} size="5x" />
+            <AudioRecording showModal={showRecordingModal} />
         </Container>
     )
 }
