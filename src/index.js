@@ -7,6 +7,7 @@ import { API_URL } from './constants.js';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import TestPage from './components/authentication/testpage.js'
+import AudioRecording from './components/pages/audioRecording.js'
 
 import {
     BrowserRouter as Router,
@@ -142,6 +143,7 @@ function App() {
                 <Route path="/test" component={TestPage} />
                 <Route path="/hellothere" component={HelloThere} />
                 <Route path="/hi" component={() => <h1>hi</h1>} />
+                <Route path="/audio" component={AudioRecording} />
                 <PrivateRoute path="/hello" component={Hello} />
                 <PrivateRoute path='/protected' component={Protected} />
                 <Route path="/404" component={NotFound} />
