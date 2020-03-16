@@ -6,27 +6,69 @@ import { faPlayCircle, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 const StyledRecordingModal = styled.div`
     display: ${props => {
-        if (props.showModal === true)
+        if (props.showModal === true) {
+            console.log('Showing modal...');
             return 'block';
-        else 
+        }
+        else {
             return 'none';
+        }
     }}
-    width: 500px;
     border: 2px solid red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 
 const PlayCircle = styled(FontAwesomeIcon)`
 `;
 
+const RecordIconContainer = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const RecordIcon = styled(FontAwesomeIcon)`
+
+    color: #F50057;
+    cursor: pointer;
+    
+    &:hover {
+        color: #8B0000;
+    }
+`;
+
+const ButtonsRow = styled.div`
+    display: ${props => props.showButtonsRow ? 'flex' : 'none'};
+    border: 2px solid blue;
+    justify-content: center;
+`;
+
+
+const DeleteButton = styled.div`
+    cursor: pointer;
+`;
+
+const StopButton = styled.div`
+    cursor: pointer;
+`;
+
+const SaveButton = styled.div`
+    cursor: pointer;
+`;
+
 const AudioRecordingModal = (props) => {
     const [record, setRecord] = useState(false);
     const [blob, setBlob] = useState('');
     const [showAudioPlayer, setShowAudioPlayer] = useState(false);
+    const [showButtonsRow, setShowButtonsRow] = useState(false);
 
     let startRecording = () => {
         console.log('recording...');
         setRecord(true);
+        setShowButtonsRow(true);
     }
 
     function stopRecording() {
@@ -52,10 +94,8 @@ const AudioRecordingModal = (props) => {
         audioPlayer = null;
     }
 
-
-
     return (
-        <StyledRecordingModal showModal = {props.showModal}>
+        <StyledRecordingModal showModal={props.showModal}>
             
             <h1>Record new pitch</h1>
 
@@ -70,12 +110,23 @@ const AudioRecordingModal = (props) => {
                 bufferSize={'2048'}
                 sampleRate={'44100'}
             />
-            <button onClick={stopRecording} type="button">Stop</button>
+
             {audioPlayer}
-            <PlayCircle icon={faPlayCircle} size="5x" />
+            {/* <PlayCircle icon={faPlayCircle} size="5x" /> */}
+            <RecordIconContainer>
+                <RecordIcon onClick={startRecording} icon={faMicrophone} size="5x" />
+            </RecordIconContainer>
+            <ButtonsRow showButtonsRow={showButtonsRow}>
+                <DeleteButton>Delete</DeleteButton>
+                <StopButton onClick={stopRecording}>Stop</StopButton>
+                <SaveButton>Save</SaveButton>
+            </ButtonsRow>
+
 
         </StyledRecordingModal>
     )
 }
 
 export default AudioRecordingModal;
+
+// prop types

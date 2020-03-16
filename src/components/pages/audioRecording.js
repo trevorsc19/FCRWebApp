@@ -24,12 +24,12 @@ const AudioRecording = (props) => {
 
     const [showRecordingModal, setShowRecordingModal] = useState(false);
 
-    let startRecording = () => setShowRecordingModal(true);
+    let openRecordingModal = () => setShowRecordingModal(true);
 
     return (
         <Container>
-            <RecordIcon onClick={startRecording} icon={faMicrophone} size="5x" />
-            <AudioRecording showModal={showRecordingModal} />
+            <RecordIcon onClick={openRecordingModal} icon={faMicrophone} size="5x" />
+            <AudioRecordingModal showModal={showRecordingModal} />
         </Container>
     )
 }
