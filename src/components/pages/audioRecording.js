@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import Preloader from "./../preloader";
 import Navbar from "./../navbar";
-import { ReactMic } from '@cleandersonlobo/react-mic';
+import { ReactMic } from 'react-mic';
 
 const Container = styled.div`
 
