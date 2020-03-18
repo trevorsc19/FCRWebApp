@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactMic } from 'react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faMicrophone, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const StyledRecordingModal = styled.div`
+    background-color: #212121;
     display: ${props => {
         if (props.showModal === true) {
             console.log('Showing modal...');
@@ -14,17 +15,21 @@ const StyledRecordingModal = styled.div`
             return 'none';
         }
     }}
-    border: 2px solid red;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    h1 {
+        color: #FFFFFF;
+    }
 `;
 
 
 const PlayCircle = styled(FontAwesomeIcon)`
 `;
 
+// so we can center the Record Icon 
 const RecordIconContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -40,22 +45,42 @@ const RecordIcon = styled(FontAwesomeIcon)`
     }
 `;
 
+/* BUTTONS ROW*/
+
 const ButtonsRow = styled.div`
     display: ${props => props.showButtonsRow ? 'flex' : 'none'};
-    border: 2px solid blue;
     justify-content: center;
+    margin: 0 -5px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 `;
 
+const TrashIcon = styled(FontAwesomeIcon)`
 
-const DeleteButton = styled.div`
+`;
+
+const Button = styled.div`
+    color: #FFFFFF
+    border: 2px solid black;
+    margin: 0 5px;
+    border-radius: 5px;
+    padding: 7px;
+`
+
+const DeleteButton = styled(Button)`
+    cursor: pointer;
+    background-color: #DC3545;
+
+    &:hover {
+        background-color: #B72C3A
+    }
+`;
+
+const StopButton = styled(Button)`
     cursor: pointer;
 `;
 
-const StopButton = styled.div`
-    cursor: pointer;
-`;
-
-const SaveButton = styled.div`
+const SaveButton = styled(Button)`
     cursor: pointer;
 `;
 
@@ -104,8 +129,8 @@ const AudioRecordingModal = (props) => {
                 pause={false}
                 onStop={onStop}
                 onData={onData}
-                strokeColor={'#000000'}
-                backgroundColor={'#FF4081'}
+                strokeColor={'#009DFF'}
+                backgroundColor={'#212121'}
                 mimeType={'audio/wav'}
                 bufferSize={'2048'}
                 sampleRate={'44100'}
@@ -117,7 +142,10 @@ const AudioRecordingModal = (props) => {
                 <RecordIcon onClick={startRecording} icon={faMicrophone} size="5x" />
             </RecordIconContainer>
             <ButtonsRow showButtonsRow={showButtonsRow}>
-                <DeleteButton>Delete</DeleteButton>
+                <DeleteButton>
+                    <TrashIcon icon={faTrash} size="1x" />
+                    Delete
+                </DeleteButton>
                 <StopButton onClick={stopRecording}>Stop</StopButton>
                 <SaveButton>Save</SaveButton>
             </ButtonsRow>
