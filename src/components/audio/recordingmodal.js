@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ReactMic } from 'react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
+import Timer from '../audio/timer.js';
 
 const StyledRecordingModal = styled.div`
     background-color: #212121;
@@ -22,6 +23,12 @@ const StyledRecordingModal = styled.div`
 
     h1 {
         color: #FFFFFF;
+    }
+
+    #date {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
     }
 `;
 
@@ -98,14 +105,16 @@ const AudioPlayer = styled.audio`
 `;
 
 const AudioRecordingModal = (props) => {
-    const [record, setRecord] = useState(false);
-    const [blob, setBlob] = useState('');
-    const [showAudioPlayer, setShowAudioPlayer] = useState(false);
-    const [showButtonsRow, setShowButtonsRow] = useState(false);
+    const [record, setRecord] = useState(false); // start recording
+    const [blob, setBlob] = useState(''); // save the blob URL
+    const [showAudioPlayer, setShowAudioPlayer] = useState(false); // show the media player to listen to recorded audio 
+    const [showButtonsRow, setShowButtonsRow] = useState(false); // show delete, stop and save buttons
+    const [showTimer, setShowTimer] = useState(false);
 
     let startRecording = () => {
         console.log('recording...');
         setRecord(true);
+        setShowTimer(true);
         setShowButtonsRow(true);
     }
 
@@ -127,9 +136,20 @@ const AudioRecordingModal = (props) => {
     let audioPlayer;
 
     if (showAudioPlayer === true) {
-        audioPlayer = <audio controls="controls" src={blob} type="audio/wav" />
+        audioPlayer = <AudioPlayer controls="controls" src={blob} type="audio/wav" />
     } else {
         audioPlayer = null;
+    }
+
+    let timer;
+    let date;
+
+    if (showTimer === true) {
+        timer = <Timer />;
+        date = <span id="date">{ new Date().toDateString() }</span>
+    } else {
+        timer = null;
+        date = null;
     }
 
     return (
@@ -151,8 +171,10 @@ const AudioRecordingModal = (props) => {
                 audioBitsPerSecond
             />
 
-            {audioPlayer}
+            { audioPlayer }
             {/* <PlayCircle icon={faPlayCircle} size="5x" /> */}
+            { timer }
+            { date }
             <RecordIconContainer>
                 <RecordIcon onClick={startRecording} icon={faMicrophone} size="5x" />
             </RecordIconContainer>
