@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactMic } from 'react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle, faMicrophone, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 
 const StyledRecordingModal = styled.div`
     background-color: #212121;
@@ -56,6 +56,9 @@ const ButtonsRow = styled.div`
 `;
 
 const TrashIcon = styled(FontAwesomeIcon)`
+`;
+
+const SaveIcon = styled(FontAwesomeIcon)`
 
 `;
 
@@ -65,6 +68,7 @@ const Button = styled.div`
     margin: 0 5px;
     border-radius: 5px;
     padding: 7px;
+    transition: 0.3s;
 `
 
 const DeleteButton = styled(Button)`
@@ -81,7 +85,16 @@ const StopButton = styled(Button)`
 `;
 
 const SaveButton = styled(Button)`
-    cursor: pointer;
+    background-color: #007BFF;
+    cursor: pointer; 
+
+    &:hover {
+        background-color: #005EC4;
+    }
+`;
+
+const AudioPlayer = styled.audio`
+
 `;
 
 const AudioRecordingModal = (props) => {
@@ -131,9 +144,11 @@ const AudioRecordingModal = (props) => {
                 onData={onData}
                 strokeColor={'#009DFF'}
                 backgroundColor={'#212121'}
+                visualSetting="sinewave"
                 mimeType={'audio/wav'}
                 bufferSize={'2048'}
                 sampleRate={'44100'}
+                audioBitsPerSecond
             />
 
             {audioPlayer}
@@ -147,7 +162,10 @@ const AudioRecordingModal = (props) => {
                     Delete
                 </DeleteButton>
                 <StopButton onClick={stopRecording}>Stop</StopButton>
-                <SaveButton>Save</SaveButton>
+                <SaveButton>
+                    <SaveIcon icon={faSave} size="1x" />
+                    Save
+                </SaveButton>
             </ButtonsRow>
 
 
