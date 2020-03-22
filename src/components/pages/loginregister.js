@@ -11,25 +11,27 @@ const Container = styled.div`
 		font-size: 24px;
 		padding: 20px 0 20px 0;
     }
-    // https://stackoverflow.com/questions/20626685/better-way-to-set-distance-between-flexbox-items
-    .tabs {
-        display: flex;
-        justify-content: center;
-        margin: 0 -5px;
-
-        div {
-            margin: 0 5px; 
-            cursor: pointer;
-        }
-    }
 `;
 
-const RegisterTab = styled.div`
-    border-bottom: ${props => props.current_type === 'register' ? '5px solid red' : 'none' };
+const Tabs = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    border: 2px solid red;
 `;
 
 const LoginTab = styled.div`
     border-bottom: ${props => props.current_type === 'LogIn' ? '5px solid red' : 'none' };
+    transition: color 0.3s;
+`;
+
+const RegisterTab = styled.div`
+    border-bottom: ${props => props.current_type === 'register' ? '5px solid red' : 'none' };
+    transition: color 2s;
 `;
 
 const LoginRegister = (props) => {
@@ -58,10 +60,10 @@ const LoginRegister = (props) => {
 
     return (
         <Container>
-            <div class="tabs">
+            <Tabs>
                 <LoginTab current_type={form} onClick={showLogInForm}>Log in</LoginTab>
                 <RegisterTab current_type={form} onClick={showRegisterForm}>Register</RegisterTab>
-            </div>
+            </Tabs>
            
             {formToShow}
 
