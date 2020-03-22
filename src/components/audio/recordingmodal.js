@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// import { ReactMic } from 'react-mic';
-import { ReactMic } from '@cleandersonlobo/react-mic';
+//import { ReactMic } from 'react-mic';
+import { ReactMicPlus } from 'react-mic-plus';
+// import { ReactMic } from '@cleandersonlobo/react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import Timer from '../audio/timer.js';
@@ -108,7 +109,8 @@ const AudioPlayer = styled.audio`
 
 const AudioRecordingModal = (props) => {
     const [record, setRecord] = useState(false); // start recording
-    const [blob, setBlob] = useState(''); // save the blob URL
+    const [blob, setBlob] = useState(''); // save the blob
+    const [blobURL, setBlobURL] = useState(''); // save blob url WE
     const [showAudioPlayer, setShowAudioPlayer] = useState(false); // show the media player to listen to recorded audio 
     const [showButtonsRow, setShowButtonsRow] = useState(false); // show delete, stop and save buttons
     const [showTimer, setShowTimer] = useState(false);
@@ -133,7 +135,8 @@ const AudioRecordingModal = (props) => {
     function onStop(recordedBlob) {
         console.log('recordedBlob is: ', recordedBlob);
         console.log('URL', recordedBlob.blobURL);
-        setBlob(recordedBlob.blobURL);
+        setBlob(recordedBlob.blob);
+        setBlobURL(recordedBlob.blobURL);
         setShowAudioPlayer(true);
     }
 
@@ -157,10 +160,12 @@ fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
     */
 
     function onSave() {
+        let file = new File([blob], "filename.wav")
+
         let headers = new Headers();
         let formData = new FormData();
 
-        formData.append("audio_file", blob);
+        formData.append("audio_file", file, blob);
 
         let requestOptions = {
             method: 'POST',
@@ -200,7 +205,7 @@ fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
     let audioPlayer;
 
     if (showAudioPlayer === true) {
-        audioPlayer = <AudioPlayer controls="controls" src={blob} type="audio/wav" />
+        audioPlayer = <AudioPlayer controls="controls" src={blobURL} type="audio/wav" />
     } else {
         audioPlayer = null;
     }
@@ -219,20 +224,21 @@ fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
     return (
         <StyledRecordingModal showModal={props.showModal}>
             
-            <h1>Record new pitch</h1>
+            <h1 contenteditable="true">Record new pitch</h1>
 
-            <ReactMic
+            <ReactMicPlus
                 record={record}
                 onStop={onStop}
                 onData={onData}
-                strokeColor={'#009DFF'}
-                backgroundColor={'#212121'}
-                // visualSetting="sinewave"
-                mimeType={'audio/wav'}
+                strokeColor='#009DFF'
+                backgroundColor='#212121'
+                visualSetting="sinewave"
+                //mimeType={'audio/wav'}
                 bufferSize={'2048'}
                 sampleRate={'44100'}
-                // audioBitsPerSecond
+                audioBitsPerSecond
             />
+            
 
             { audioPlayer }
             {/* <PlayCircle icon={faPlayCircle} size="5x" /> */}
@@ -252,7 +258,7 @@ fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
                     Save
                 </SaveButton>
             </ButtonsRow>
-
+    
 
         </StyledRecordingModal>
     )

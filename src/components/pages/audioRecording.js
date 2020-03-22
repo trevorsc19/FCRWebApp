@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import Preloader from "./../preloader";
 import Navbar from "./../navbar";
-import { ReactMic } from 'react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import AudioRecordingModal from '../audio/recordingmodal.js';

@@ -11,6 +11,7 @@ from audioanalysis import speech
 from VRWare.authentication.TokenAuthentication import TokenAuthentication
 from rest_framework.parsers import JSONParser
 from rest_framework import permissions
+import wave
 
 class SuperUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -28,10 +29,14 @@ def test_speech(request):
 #@authentication_classes([TokenAuthentication])
 @authentication_classes([])
 def audio_upload_test(request):
-    if request.method == 'POST':
-        print(request.method)
-        print(request.data)
-        return Response({'message': 'Uploaded successful'})
+    print(request.data)
+    print(request.data.get("audio_file"))
+    form = forms.AudioForm(request.POST, request.FILES)
+    if form.is_valid():
+        print("Audio is valid")
+    else:
+        print("Audio is not valid")
+    return Response({'message': 'Uploaded successful'})
     
 
 
