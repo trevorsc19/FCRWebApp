@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ReactMic } from 'react-mic';
+// import { ReactMic } from 'react-mic';
+import { ReactMic } from '@cleandersonlobo/react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import Timer from '../audio/timer.js';
@@ -136,9 +137,46 @@ const AudioRecordingModal = (props) => {
         setShowAudioPlayer(true);
     }
 
+    /*
+var myHeaders = new Headers();
+
+var formdata = new FormData();
+formdata.append("audio_file", fileInput.files[0], "OSR_us_000_0016_8k.wav");
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: formdata,
+  redirect: 'follow'
+};
+
+fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+    */
+
     function onSave() {
-        //console.log("Sending the following data", JSON.stringify({audio: blob}));
-        console.log("Sending the following data", JSON.stringify({"hi":"hi2"}));
+        let headers = new Headers();
+        let formData = new FormData();
+
+        formData.append("audio_file", blob);
+
+        let requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: formData
+        }
+
+        fetch(UPLOAD_AUDIO_URL, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
+    /*
+    function onSave() {
+        console.log("Sending the following data", JSON.stringify({audio: blob}));
         fetch(UPLOAD_AUDIO_URL, {
             method: 'POST',
             headers: {
@@ -146,8 +184,7 @@ const AudioRecordingModal = (props) => {
               'Content-Type': 'application/json',
               //'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({"hi":"hi2"})
-            // body: JSON.stringify({audio: blob})
+            body: JSON.stringify({audio: blob})
           })
             .then(response => {
                 console.log("STATUS CODE", response.status);
@@ -158,6 +195,7 @@ const AudioRecordingModal = (props) => {
               console.log(parsedResponse); 
             }).catch(error => console.log("ERROR", error));
     }
+    */
 
     let audioPlayer;
 
@@ -185,16 +223,15 @@ const AudioRecordingModal = (props) => {
 
             <ReactMic
                 record={record}
-                pause={false}
                 onStop={onStop}
                 onData={onData}
                 strokeColor={'#009DFF'}
                 backgroundColor={'#212121'}
-                visualSetting="sinewave"
+                // visualSetting="sinewave"
                 mimeType={'audio/wav'}
                 bufferSize={'2048'}
                 sampleRate={'44100'}
-                audioBitsPerSecond
+                // audioBitsPerSecond
             />
 
             { audioPlayer }

@@ -10,6 +10,12 @@ from rest_framework.decorators import api_view, authentication_classes, parser_c
 from audioanalysis import speech
 from VRWare.authentication.TokenAuthentication import TokenAuthentication
 from rest_framework.parsers import JSONParser
+from rest_framework import permissions
+
+class SuperUserPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return false
+
 
 
 def test_speech(request):
@@ -19,14 +25,13 @@ def test_speech(request):
     return HttpResponse()
 
 @api_view(['POST'])
-@authentication_classes([TokenAuthentication])
+#@authentication_classes([TokenAuthentication])
+@authentication_classes([])
 def audio_upload_test(request):
     if request.method == 'POST':
         print(request.method)
         print(request.data)
-    #print("Received audio")
-    #print(JSONParser.parse(request.data));
-    #return Response({'message': 'Uploaded successful'})
+        return Response({'message': 'Uploaded successful'})
     
 
 
