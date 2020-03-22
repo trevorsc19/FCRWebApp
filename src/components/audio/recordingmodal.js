@@ -4,6 +4,7 @@ import { ReactMic } from 'react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import Timer from '../audio/timer.js';
+import { UPLOAD_AUDIO_URL } from '../../constants.js';
 
 const StyledRecordingModal = styled.div`
     background-color: #212121;
@@ -118,6 +119,7 @@ const AudioRecordingModal = (props) => {
         setShowButtonsRow(true);
     }
 
+    // When the 'stop' button is clicked
     function stopRecording() {
         setRecord(false)
     }
@@ -126,11 +128,35 @@ const AudioRecordingModal = (props) => {
         console.log('Chunk of real-time data is: ', recordedBlob);
     }
 
+    // When react-mic stops recording
     function onStop(recordedBlob) {
         console.log('recordedBlob is: ', recordedBlob);
         console.log('URL', recordedBlob.blobURL);
         setBlob(recordedBlob.blobURL);
         setShowAudioPlayer(true);
+    }
+
+    function onSave() {
+        //console.log("Sending the following data", JSON.stringify({audio: blob}));
+        console.log("Sending the following data", JSON.stringify({"hi":"hi2"}));
+        fetch(UPLOAD_AUDIO_URL, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              //'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({"hi":"hi2"})
+            // body: JSON.stringify({audio: blob})
+          })
+            .then(response => {
+                console.log("STATUS CODE", response.status);
+                console.log(response);
+                return response.json();
+            })
+            .then(parsedResponse => {
+              console.log(parsedResponse); 
+            }).catch(error => console.log("ERROR", error));
     }
 
     let audioPlayer;
@@ -184,7 +210,7 @@ const AudioRecordingModal = (props) => {
                     Delete
                 </DeleteButton>
                 <StopButton onClick={stopRecording}>Stop</StopButton>
-                <SaveButton>
+                <SaveButton onClick={onSave}>
                     <SaveIcon icon={faSave} size="1x" />
                     Save
                 </SaveButton>

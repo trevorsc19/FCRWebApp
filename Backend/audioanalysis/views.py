@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from rest_framework.response import Response
 from django.views import View
 from audioanalysis import models
 from audioanalysis import forms
 from django.views.decorators.http import require_http_methods
-
+from rest_framework.decorators import api_view, authentication_classes, parser_classes
 from audioanalysis import speech
+from VRWare.authentication.TokenAuthentication import TokenAuthentication
+from rest_framework.parsers import JSONParser
 
 
 def test_speech(request):
@@ -14,7 +17,18 @@ def test_speech(request):
     p="OSR_us_000_0016_8k" # Audio File title
     speech.run_overview(p)
     return HttpResponse()
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+def audio_upload_test(request):
+    if request.method == 'POST':
+        print(request.method)
+        print(request.data)
+    #print("Received audio")
+    #print(JSONParser.parse(request.data));
+    #return Response({'message': 'Uploaded successful'})
     
+
 
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file

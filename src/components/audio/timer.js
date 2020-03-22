@@ -16,11 +16,11 @@ const Timer = (props) => {
             seconds={0}
             minutes={0}
             hours={0}
-            limit="00:00:10"
-            onChange={({ hours, minutes, seconds }) => {
+            limit="00:30:00"
+            onChange={({ hours, minutes, seconds }) => { 
                 // do something
             }}
-            onCallback={() => console.log('Finish')}
+            onCallback={() => console.log('Finish')} // when the watch is equal to limit 
             render={({ formatted, hours, minutes, seconds }) => {
                 return (
                     <Container>
