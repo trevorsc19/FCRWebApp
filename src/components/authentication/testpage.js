@@ -1,3 +1,5 @@
+// File used to test JWT and Cookie
+
 import React from 'react';
 import Cookie from 'js-cookie';
 import styled from 'styled-components';

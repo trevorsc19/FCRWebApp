@@ -19,7 +19,7 @@ const StyledLoginForm = styled.form`
     margin: 0 auto;
     position: relative;
     top: 50%;
-    border: 2px solid red;
+    //border: 2px solid red;
     padding-bottom: 75px;
 
     input[type="password"],

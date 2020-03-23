@@ -20,7 +20,7 @@ const Container = styled.div`
 const StyledRegisterForm = styled.form`
     width: 300px;
     margin: 0 auto;
-    border: 2px solid blue;
+    //border: 2px solid blue;
     border-radius: 5px;
 
 	
