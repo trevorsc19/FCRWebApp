@@ -47,14 +47,21 @@ INSTALLED_APPS = [
 
 # Removed     'django.middleware.csrf.CsrfViewMiddleware', (https://stackoverflow.com/a/22812799/9599554)
 MIDDLEWARE = [
+    'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
+
+# docs.djangoproject.com/en/3.0/ref/settings/#std:setting-CSRF_USE_SESSIONS
+CSRF_USE_SESSIONS = False
+
+# docs.djangoproject.com/en/3.0/ref/settings/#std:setting-CSRF_COOKIE_HTTPONLY
+CSRF_COOKIE_HTTPONLY = False
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
@@ -113,8 +120,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE':10, 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         #'rest_framework.authentication.BasicAuthentication',
-        'VRWare.authentication.TokenAuthentication.TokenAuthentication'
-    ]
+        # 'VRWare.authentication.TokenAuthentication.TokenAuthentication'
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_PERMISSION_CLASSES': []
 }
 
 AUTH_USER_MODEL = 'users.CustomUser'

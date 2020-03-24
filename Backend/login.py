@@ -9,7 +9,26 @@ import datetime
 import time
 import pytz
 
+
+@api_view(['POST'])
+def login_view(request):
+    username = request.data['username']
+    password = request.data['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        print("Login successful")
+        return Response({"message":"Login successful"})
+    else:
+        print("Not authenticated")
+
+def session_test(request):
+    print("This is a test")
+    print(request.user.id)
+
+
 # Content-Type has to be set to application/json in postman
+"""
 @api_view(['POST'])
 def login_view(request):
 
@@ -71,3 +90,4 @@ def login_view(request):
 @api_view(['POST'])
 def token_test(request):
     print("Testing token....")
+"""
