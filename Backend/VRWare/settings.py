@@ -62,6 +62,10 @@ CSRF_USE_SESSIONS = False
 # docs.djangoproject.com/en/3.0/ref/settings/#std:setting-CSRF_COOKIE_HTTPONLY
 CSRF_COOKIE_HTTPONLY = False
 
+SESSION_COOKIE_AGE = 1209600
+
+# SESSION_COOKIE_HTTPONLY = False
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
@@ -119,7 +123,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE':10, 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework.authentication.BasicAuthentication',
         # 'VRWare.authentication.TokenAuthentication.TokenAuthentication'
         'rest_framework.authentication.SessionAuthentication'
     ],

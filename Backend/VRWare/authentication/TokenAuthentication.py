@@ -9,7 +9,6 @@ import jwt, json
 # medium article jyoti gautam 
 
 class TokenAuthentication(BaseAuthentication):
-    print("AUTHENTICATION CLASS")
     model = None
 
     def get_model(self):

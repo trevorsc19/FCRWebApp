@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view
-from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 # from django.contrib.auth.models import User
 from users.models import CustomUser
@@ -8,23 +7,39 @@ import jwt, json
 import datetime
 import time
 import pytz
-
+from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 @api_view(['POST'])
 def login_view(request):
+    print("Loggin in...")
     username = request.data['username']
     password = request.data['password']
+    print(request.user.is_authenticated)
     user = authenticate(request, username=username, password=password)
+    request.session.set_test_cookie()
     if user is not None:
         login(request, user)
+        # request.session['logged_in'] = True
         print("Login successful")
+        #rint(request.session['logged_in'])
         return Response({"message":"Login successful"})
     else:
         print("Not authenticated")
 
+# only allow if user is logged in 
+@api_view(['POST'])
 def session_test(request):
-    print("This is a test")
-    print(request.user.id)
+    print("Testing")
+    print(request.user)
+    #print(request.session['logged_in'])
+    if request.user.is_authenticated:
+        print(request.user.id)
+    else:
+        print("User can not access this")
+        msg = {"message":"Not authorized"}
+        return Response(msg, status=status.HTTP_403_FORBIDDEN)
 
 
 # Content-Type has to be set to application/json in postman

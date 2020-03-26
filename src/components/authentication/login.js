@@ -76,10 +76,11 @@ const LoginForm = (props) => {
             },
             body: JSON.stringify({username: userName, password: password})
         })
+        //.then(response => response.json())
         .then(response => response.json())
         .then(parsedResponse => {
             console.log('Response', parsedResponse);
-            Cookies.set('token', parsedResponse['access_token']);
+            Cookies.set('token', parsedResponse['csrftoken']);
         });
     }
 
