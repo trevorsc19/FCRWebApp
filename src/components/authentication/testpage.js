@@ -94,6 +94,7 @@ class TestPage extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'X-CSRFToken': Cookie.get('csrftoken')
             }
         })
         .then(response => response.json())

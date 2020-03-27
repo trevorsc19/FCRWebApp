@@ -74,7 +74,8 @@ const LoginForm = (props) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({username: userName, password: password})
+            body: JSON.stringify({username: userName, password: password}),
+            credentials: 'include'
         })
         //.then(response => response.json())
         .then(response => response.json())
