@@ -29,6 +29,7 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login.login_view),
+    path('logout/', login.logout_view),
     path('sessiontest/', login.session_test)
     #path('tokentest/', login.token_test)
 ]

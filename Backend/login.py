@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 # from django.contrib.auth.models import User
@@ -41,6 +41,12 @@ def session_test(request):
         msg = {"message":"Not authorized"}
         return Response(msg, status=status.HTTP_403_FORBIDDEN)
 
+@api_view(['POST'])
+def logout_view(request):
+    print("Logging out user ")
+    print(request.user)
+    logout(request)
+    return Response({'msg': 'Logout successful'})
 
 # Content-Type has to be set to application/json in postman
 """
