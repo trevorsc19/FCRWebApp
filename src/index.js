@@ -31,7 +31,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     useEffect(() => {
   
       // token is only ever set when user successfully logins in 
-      let token = Cookies.get('token');
+      let token = Cookies.get('csrftoken');
       console.log("PRIVATE ROUTE COOKIE:", token);
   
       if (token) {
