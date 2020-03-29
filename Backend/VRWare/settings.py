@@ -47,10 +47,10 @@ INSTALLED_APPS = [
 
 # Removed     'django.middleware.csrf.CsrfViewMiddleware', (https://stackoverflow.com/a/22812799/9599554)
 MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -66,6 +66,10 @@ SESSION_COOKIE_AGE = 1209600
 
 # SESSION_COOKIE_HTTPONLY = False
 
+# Leaving this setting off isn't a good idea because an attacker could capture an unencrypted session cookie with a packet sniffer and user the cookie to hijack the user's session
+SESSION_COOKIE_SECURE = False
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import TestPage from './components/authentication/testpage.js'
 import AudioRecording from './components/pages/audioRecording.js'
+import Profile from './components/profile/profile.js';
 
 import {
     BrowserRouter as Router,
@@ -144,6 +145,7 @@ function App() {
                 <Route path="/hellothere" component={HelloThere} />
                 <Route path="/hi" component={() => <h1>hi</h1>} />
                 <Route path="/audio" component={AudioRecording} />
+                <Route path="/profile" component={Profile} />
                 <PrivateRoute path="/hello" component={Hello} />
                 <PrivateRoute path='/protected' component={Protected} />
                 <Route path="/404" component={NotFound} />
