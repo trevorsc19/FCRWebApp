@@ -36,6 +36,8 @@ def session_test(request):
     #print(request.session['logged_in'])
     if request.user.is_authenticated:
         print(request.user.id)
+        msg = {"message":"User is Authenticated"}
+        return Response(msg, status=status.HTTP_202_ACCEPTED)
     else:
         print("User can not access this")
         msg = {"message":"Not authorized"}
@@ -47,6 +49,16 @@ def logout_view(request):
     print(request.user)
     logout(request)
     return Response({'msg': 'Logout successful'})
+
+@api_view(['POST'])
+def verify_session(request):
+    print("Verifying session")
+    print(request.user)
+    if request.user.is_authenticated:
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 # Content-Type has to be set to application/json in postman
 """

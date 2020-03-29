@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
-import { API_URL } from '../../constants.js'
+import { API_URL } from '../../constants.js';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    Switch
+} from 'react-router-dom';
 
 const Container = styled.div`
     //height: 100vh;
