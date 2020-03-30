@@ -124,17 +124,18 @@ const AudioRecordingModal = (props) => {
 
     // When the 'stop' button is clicked
     function stopRecording() {
-        setRecord(false)
+        console.log("STOPPING RECORDING");
+        setRecord(false);
     }
 
     function onData(recordedBlob) {
-        console.log('Chunk of real-time data is: ', recordedBlob);
+        //console.log('Chunk of real-time data is: ', recordedBlob);
     }
 
     // When react-mic stops recording
     function onStop(recordedBlob) {
-        console.log('recordedBlob is: ', recordedBlob);
-        console.log('URL', recordedBlob.blobURL);
+        //console.log('recordedBlob is: ', recordedBlob);
+        //console.log('URL', recordedBlob.blobURL);
         setBlob(recordedBlob.blob);
         setBlobURL(recordedBlob.blobURL);
         setShowAudioPlayer(true);

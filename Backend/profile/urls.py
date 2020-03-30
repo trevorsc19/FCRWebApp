@@ -20,6 +20,7 @@ from profile.views import delete_table
 from profile.views import test_404_handler
 from profile.views import upload_document
 from profile.views import upload_image
+from profile.views import get_session_profile
 
 
 """
@@ -34,6 +35,8 @@ urlpatterns = [
     path('profiles/404_error_test', test_404_handler),
     path('profiles/upload_doc', upload_document), 
     path('profiles/upload_image', upload_image),
+    path('sessions/profile', get_session_profile)
+
 ]
 
 # DEBUG must be set to 'False' in settings.py for this to work

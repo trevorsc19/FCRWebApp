@@ -27,6 +27,8 @@ class FakeData:
         import pycountry
         from faker import Faker
         from datetime import datetime
+        from users.models import CustomUser as User
+
 
 
         #self.delete_all_users_except_admins()
@@ -50,6 +52,11 @@ class FakeData:
             #print(profile)
             profile.save()
             print("Created user " + str(i))
+        
+        user = User.objects.create_superuser('lmp004', 'lmp004@lvc.ed', 'password')
+        profile = Profile(user=user, first_name='Logan', last_name="Phillips", email='lmp004@lvc.edu', birth_date='1996-04-24', country='America')
+        profile.save()
+        
 
     def create_random_user(self, email_from_profile_object):
         import csv

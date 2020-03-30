@@ -12,7 +12,7 @@ from configparser import RawConfigParser
 import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # /home/logan/FCRWebApp/Backend
 
 
 # Quick-start development settings - unsuitable for production
@@ -78,7 +78,6 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 ]
 
 ROOT_URLCONF = 'VRWare.urls'
-print("BASES", BASE_DIR)
 # needed to add 'templates' so that Django will know to look for the new templates folder
 TEMPLATES = [
     {
