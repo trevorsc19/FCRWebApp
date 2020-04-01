@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { API_URL } from '../../constants.js';
 import Cookies from 'js-cookie';
+import Editable from '../shared_components/editable.js';
 
 const Container = styled.div`
     h1 {
@@ -15,9 +16,14 @@ const LogOutButton = styled.div`
     right: 0;
 `;
 
+const EmailAddressInput = styled.input`
+    width: 500px;
+`;
+
 const Profile = (props) => {
 
     const [profileData, setProfileData] = useState('')
+    const [task, setTask] = useState("");
 
     useEffect(() => {
         fetch(API_URL+"sessions/profile", {
@@ -58,6 +64,20 @@ const Profile = (props) => {
             <LogOutButton onClick={handleLogout}>Logout</LogOutButton>
             <h1>User Profile</h1>
             <h2>Welcome, {profileData.first_name}</h2>
+            <Editable
+                text={task}
+                placeholder="Write a task name"
+                type="input"
+            >
+                <EmailAddressInput
+                    type="text"
+                    name="task"
+                    placeholder="Wite a task name"
+                    value={task}
+                    onChange={e => setTask(e.target.value)}
+                />
+
+            </Editable>
         </Container>
     )
 }

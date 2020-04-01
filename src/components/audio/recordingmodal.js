@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import Timer from '../audio/timer.js';
 import { UPLOAD_AUDIO_URL } from '../../constants.js';
+import Editable from '../shared_components/editable.js';
 
 const StyledRecordingModal = styled.div`
     background-color: #212121;
@@ -23,10 +24,6 @@ const StyledRecordingModal = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    h1 {
-        color: #FFFFFF;
-    }
 
     #date {
         display: inline-block;
@@ -104,7 +101,14 @@ const SaveButton = styled(Button)`
 `;
 
 const AudioPlayer = styled.audio`
+`;
 
+const RecordingHeader = styled.div`
+    color: #FFFFFF;
+
+    &:hover {
+
+    }
 `;
 
 const AudioRecordingModal = (props) => {
@@ -224,8 +228,9 @@ fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
 
     return (
         <StyledRecordingModal showModal={props.showModal}>
-            
-            <h1 contenteditable="true">Record new pitch</h1>
+            <Editable>
+                    <RecordingHeader>Record new pitch</RecordingHeader>
+            </Editable>
 
             <ReactMicPlus
                 record={record}
