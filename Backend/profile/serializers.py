@@ -15,7 +15,7 @@ class ProfileSerializer(serializers.Serializer):
     birth_date = serializers.DateField()
     country = serializers.CharField(default=None, max_length=100)
 
-    def create(self, vaidated_data):
+    def create(self, validated_data):
         """
         Create and return a new 'Profile' instance, given the validated data
         """
@@ -26,7 +26,6 @@ class ProfileSerializer(serializers.Serializer):
         """
         Update and return an existing 'Profile' instance, given the validated data
         """
-        # do i neeed last_modified?
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
