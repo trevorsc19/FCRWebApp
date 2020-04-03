@@ -23,7 +23,7 @@ class Profile(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     first_name = models.CharField(null=True, max_length=30)
     last_name = models.CharField(null=True, max_length=30)
-    email = models.EmailField(null=False, default=None, max_length=50)
+    email = models.EmailField(null=False, default=None, max_length=50, unique=True)
     # argument set to false by default
     birth_date = models.DateField(null=True)
     country = models.CharField(null=True, default=None, max_length=100)
