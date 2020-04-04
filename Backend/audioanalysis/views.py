@@ -12,6 +12,7 @@ from VRWare.authentication.TokenAuthentication import TokenAuthentication
 from rest_framework.parsers import JSONParser
 from rest_framework import permissions
 import wave
+from django.views.decorators.csrf import csrf_exempt
 
 class SuperUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -22,6 +23,10 @@ class SuperUserPermission(permissions.BasePermission):
 def test_speech(request):
     print("Testing speech")
     p="OSR_us_000_0016_8k" # Audio File title
+    #speech.run_overview(p)
+    p="male"
+    #speech.run_overview(p)
+    p="OSR_us_000_0035_8k"
     speech.run_overview(p)
     return HttpResponse()
 
@@ -43,6 +48,7 @@ def audio_upload_test(request):
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
 @require_http_methods(["POST"])
+@csrf_exempt
 def upload_audio(request):
     print("IN AUDIO ANALYSIS APP")
     print("Uploading audio...")
