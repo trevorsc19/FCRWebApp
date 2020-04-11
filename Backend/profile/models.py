@@ -8,7 +8,7 @@ import pycountry
 
 #https://medium.com/better-programming/list-comprehension-in-python-8895a785550b
 COUNTRY_CHOICES = [n.name for n in pycountry.countries]
-
+import audioanalysis.models
 # By default, Django will create a table profile_profile
 # Models fields reference: https://docs.djangoproject.com/en/2.2/ref/models/fields/
 class Profile(models.Model):
@@ -18,6 +18,8 @@ class Profile(models.Model):
         on_delete=models.CASCADE, 
         null=True
     )
+    # many to one relationship. Multiple audio entries to one Profile. Django appends "_id" to the field name to its database column name
+    audio_file = models.ForeignKey(audioanalysis.models.Audio, on_delete=models.CASCADE, null=True)
     # we could also use now() postgres function
     account_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)

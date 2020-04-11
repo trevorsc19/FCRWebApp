@@ -12,10 +12,10 @@ from VRWare.authentication.TokenAuthentication import TokenAuthentication
 from rest_framework.parsers import JSONParser
 from rest_framework import permissions
 import wave
-from django.views.decorators.csrf import csrf_exempt
 import boto3
 from botocore.exceptions import ClientError
 import io
+from audioanalysis import serializers
 
 class SuperUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -23,7 +23,6 @@ class SuperUserPermission(permissions.BasePermission):
 
 @api_view(['GET'])
 @authentication_classes([])
-@csrf_exempt
 def test_s3(request):
     #boto3.set_stream_logger('')
     print("Testing s3...")
@@ -41,23 +40,29 @@ def test_s3(request):
         print(audio_bucket_object)
 
 @api_view(['POST'])
-@csrf_exempt
+@authentication_classes([])
 def upload_s3_test(request):
     print("Testing S3 upload...")
 
     s3_client = boto3.client('s3')
-    
-    form = forms.AudioForm(request.POST, request.FILES)
-    if form.is_valid():
+    # https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav
+    #form = forms.AudioForm(request.POST, request.FILES)
+    #if form.is_valid():
+    serializer = serializers.AudioSerializer(data={"s3_url":"https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav"})
+    if serializer.is_valid():
         print("Audio is valid")
+        serializer.save()
         try:
             #with io.BytesIO(request.FILES) as f:
             response = s3_client.upload_fileobj(request.FILES["audio_file"], 'vrwarebucket', 's3_upload_file.wav')
+            # add id of audio entry to logged in profile row
+            print(request.user)
             # add url to audio analysis table
         except ClientError as e:
             return Response({'message': 'Exception thrown'})
     else:
         print("Audio is not valid")
+        print(serializer.errors)
         return Response({'message': 'Audio is not valid'})
     return Response({'message': 'Uploaded successful'})
 
@@ -91,7 +96,6 @@ def audio_upload_test(request):
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
 @require_http_methods(["POST"])
-@csrf_exempt
 def upload_audio(request):
     print("IN AUDIO ANALYSIS APP")
     print("Uploading audio...")

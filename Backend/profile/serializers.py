@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from profile.models import Profile, COUNTRY_CHOICES
 from users.serializers import UserSerializer
+from audioanalysis.serializers import AudioSerializer
 
 class ProfileSerializer(serializers.Serializer):
     # Define the fields that get serialzied/deserialzied
 
     id = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=True)
+    audio = AudioSerializer(read_only=True)
     #account_created = serializers.DateTimeField(auto_now_add=True)
     #last_modified = serializers.DateTimeField()
     first_name = serializers.CharField(max_length=30)
