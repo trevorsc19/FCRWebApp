@@ -13,10 +13,53 @@ from rest_framework.parsers import JSONParser
 from rest_framework import permissions
 import wave
 from django.views.decorators.csrf import csrf_exempt
+import boto3
+from botocore.exceptions import ClientError
+import io
 
 class SuperUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return false
+
+@api_view(['GET'])
+@authentication_classes([])
+@csrf_exempt
+def test_s3(request):
+    #boto3.set_stream_logger('')
+    print("Testing s3...")
+    s3 = boto3.resource('s3')
+
+    for bucket in s3.buckets.all():
+        print(bucket.name)
+        for obj in bucket.objects.all():
+            print(obj.key)
+
+
+    s3 = boto3.resource('s3')
+    audio_bucket = s3.Bucket('vrwarebucket')
+    for audio_bucket_object in audio_bucket.objects.all():
+        print(audio_bucket_object)
+
+@api_view(['POST'])
+@csrf_exempt
+def upload_s3_test(request):
+    print("Testing S3 upload...")
+
+    s3_client = boto3.client('s3')
+    
+    form = forms.AudioForm(request.POST, request.FILES)
+    if form.is_valid():
+        print("Audio is valid")
+        try:
+            #with io.BytesIO(request.FILES) as f:
+            response = s3_client.upload_fileobj(request.FILES["audio_file"], 'vrwarebucket', 's3_upload_file.wav')
+            # add url to audio analysis table
+        except ClientError as e:
+            return Response({'message': 'Exception thrown'})
+    else:
+        print("Audio is not valid")
+        return Response({'message': 'Audio is not valid'})
+    return Response({'message': 'Uploaded successful'})
 
 
 

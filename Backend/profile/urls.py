@@ -29,12 +29,12 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 
 # pk will be the name of the parameter passed to the get() method. We can name this whatever we want.
 urlpatterns = [
-    path('profiles/people/', ProfileList.as_view()),
-    path('profiles/people/<int:pk>', ProfileDetail.as_view()),
+    path('api/profiles/people/', ProfileList.as_view()),
+    path('api/profiles/people/<int:pk>', ProfileDetail.as_view()),
     path('deletetable/', delete_table),
-    path('profiles/404_error_test', test_404_handler),
-    path('profiles/upload_doc', upload_document), 
-    path('profiles/upload_image', upload_image),
+    path('api/profiles/404_error_test', test_404_handler),
+    path('api/profiles/upload_doc', upload_document), 
+    path('api/profiles/upload_image', upload_image),
     path('sessions/profile', get_session_profile)
 
 ]

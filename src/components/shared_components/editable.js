@@ -17,6 +17,7 @@ const Section = styled.section`
     }
 `;
 
+// blog.logrocket.com/the-complete-guide-to-building-inline-editable-ui-in-react/
 const Editable = ({text, type, placeholder, children, ...props}) => {
     const [isEditing, setEditing] = useState(false);
 

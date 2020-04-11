@@ -14,10 +14,12 @@ from profile.serializers import ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # Get the currently logged in user's profile data
 @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def get_session_profile(request):
     print("GETTING PROFILE FROM USER ID " + str(request.user.id))
     if request.user.is_authenticated:
@@ -81,6 +83,7 @@ class ProfileList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProfileDetail(APIView):
+    
     """
     Retrieve, update, or delete a profile instance
     """
