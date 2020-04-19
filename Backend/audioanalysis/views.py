@@ -42,6 +42,7 @@ def test_s3(request):
 @api_view(['POST'])
 @authentication_classes([])
 def upload_s3_test(request):
+    # need to get logged in user so that we can tie the S3 URL to the user
     print("Testing S3 upload...")
 
     s3_client = boto3.client('s3')
