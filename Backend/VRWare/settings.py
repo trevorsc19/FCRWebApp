@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'audioanalysis',
     'users',
     'corsheaders', 
-    'storages'
 ]
 
 # Removed     'django.middleware.csrf.CsrfViewMiddleware', (https://stackoverflow.com/a/22812799/9599554)
@@ -203,6 +202,7 @@ LOGGING = {
 
 # set S3 as the place to store your files.
 
+"""
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = 'AKIA3TP3EASLVVHRHEZ7'
@@ -218,4 +218,4 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 AWS_DEFAULT_ACL = None
-
+"""
