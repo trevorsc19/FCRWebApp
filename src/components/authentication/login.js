@@ -88,24 +88,7 @@ const LoginForm = (props) => {
         .then(response => response.json())
         .then(parsedResponse => {
             console.log('Response', parsedResponse);
-        });
-    }
-
-    function handleLogout(e) {
-        console.log("Logging out...");
-        fetch(API_URL+"logout/", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': Cookies.get('csrftoken')
-            },
-            credentials: 'include'
-        })
-        //.then(response => response.json())
-        .then(response => response.text())
-        .then(parsedResponse => {
-            console.log('Response', parsedResponse);
+            window.location.href='/profile';
         });
     }
 
@@ -118,7 +101,6 @@ const LoginForm = (props) => {
                 <input type="text" name="username" placeholder="Username" value={userName} required onChange={handleUserNameInputChange} />
                 <input type="password" name="password" placeholder="Password" required onChange={handlePasswordInputChange} />
                 <SubmitButton onClick={handleLogin}>Submit</SubmitButton>
-                <div onClick={handleLogout}>Logout</div>
             </StyledLoginForm>
         </Container>
     )

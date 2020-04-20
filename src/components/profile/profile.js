@@ -56,6 +56,7 @@ const Profile = (props) => {
         .then(response => response.text())
         .then(parsedResponse => {
             console.log('Response', parsedResponse);
+            window.location.href='/';
         });
     }
 
