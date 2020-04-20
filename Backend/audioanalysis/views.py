@@ -49,7 +49,7 @@ def upload_s3_test(request):
     # https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav
     #form = forms.AudioForm(request.POST, request.FILES)
     #if form.is_valid():
-    serializer = serializers.AudioSerializer(data={"s3_url":"https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav"})
+    serializer = serializers.AudioFileSerializer(data={"s3_url":"https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav"})
     if serializer.is_valid():
         print("Audio is valid")
         serializer.save()
@@ -96,19 +96,18 @@ def audio_upload_test(request):
 
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
-@require_http_methods(["POST"])
+#@require_http_methods(["POST"])
+@api_view(['POST'])
+@authentication_classes([])
 def upload_audio(request):
-    print("IN AUDIO ANALYSIS APP")
-    print("Uploading audio...")
-
     if request.method == 'POST':
-        form = forms.AudioForm(request.POST, request.FILES)
-        print(form.errors)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            audio_model = models.Audio(audio=cleaned_data['audio_file'])
-            audio_model.save()
+        print(request.data)
+        file_serializer = serializers.AudioFileSerializer(data=request.data)
+        
+        if file_serializer.is_valid():
+            file_serializer.save()
             return HttpResponse("Audio successfully uploaded");
         else:
             print("Audio is not valid")
+            print(file_serializer.errors)
             return HttpResponse("Audio Not uploaded");
