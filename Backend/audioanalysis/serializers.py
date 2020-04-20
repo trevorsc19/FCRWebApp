@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 class AudioFileSerializer(serializers.Serializer):
     # Define the fields that get serialized/deserialized
+    name = serializers.CharField(max_length=128, required=False)
     audio_file = serializers.FileField(required=False)
     s3_url = serializers.URLField(max_length=500, allow_blank=False, required=False)
 
@@ -14,6 +15,10 @@ class AudioFileSerializer(serializers.Serializer):
         print("IN CREATE METHOD IN AUDIO SERIALIZER")
         print(validated_data)
         return Audio.objects.create(**validated_data)
+    
+    def validate_name(self, value):
+        print("Validating file name " + value)
+        return value
     
     def validate_audio_file(self, value):
         print("Validating audio file")

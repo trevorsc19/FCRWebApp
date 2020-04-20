@@ -16,6 +16,7 @@ import boto3
 from botocore.exceptions import ClientError
 import io
 from audioanalysis import serializers
+import os
 
 class SuperUserPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -71,28 +72,9 @@ def upload_s3_test(request):
 
 def test_speech(request):
     print("Testing speech")
-    p="OSR_us_000_0016_8k" # Audio File title
-    #speech.run_overview(p)
-    p="male"
-    #speech.run_overview(p)
-    p="OSR_us_000_0035_8k"
+    p="OSR_us_000_0040_8k"
     speech.run_overview(p)
     return HttpResponse()
-
-@api_view(['POST'])
-#@authentication_classes([TokenAuthentication])
-@authentication_classes([])
-def audio_upload_test(request):
-    print(request.data)
-    print(request.data.get("audio_file"))
-    form = forms.AudioForm(request.POST, request.FILES)
-    if form.is_valid():
-        print("Audio is valid")
-    else:
-        print("Audio is not valid")
-    return Response({'message': 'Uploaded successful'})
-    
-
 
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
@@ -102,12 +84,35 @@ def audio_upload_test(request):
 def upload_audio(request):
     if request.method == 'POST':
         print(request.data)
-        file_serializer = serializers.AudioFileSerializer(data=request.data)
+        data = {'name':request.FILES['audio_file'].name, 'audio_file':request.data.get('audio_file')}
+        print(data)
+        file_serializer = serializers.AudioFileSerializer(data=data)
+        #file_serializer = serializers.AudioFileSerializer(data=request.data)
         
         if file_serializer.is_valid():
-            file_serializer.save()
+            file = file_serializer.save()
+            p=file.name.split('.', 1)[0] # remove .wav
+            speech.run_overview(p)
+            clean_up_temp_directory()
             return HttpResponse("Audio successfully uploaded");
         else:
             print("Audio is not valid")
             print(file_serializer.errors)
             return HttpResponse("Audio Not uploaded");
+
+def clean_up_temp_directory():
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    temp_dir = root_dir + "/media/audio"
+    print(temp_dir)
+    #temp_dir
+    
+    for filename in os.listdir(temp_dir):
+        if filename.endswith(".TextGrid"):
+            print("Deleting file " + os.path.join(temp_dir, filename))
+            os.remove(os.path.join(temp_dir, filename))
+    
+    for filename in os.listdir(temp_dir):
+        if filename.endswith(".wav"):
+            print("Deleting file " + os.path.join(temp_dir, filename))
+            os.remove(os.path.join(temp_dir, filename))
+            
