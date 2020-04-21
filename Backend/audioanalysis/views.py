@@ -68,14 +68,6 @@ def upload_s3_test(request):
         return Response({'message': 'Audio is not valid'})
     return Response({'message': 'Uploaded successful'})
 
-
-
-def test_speech(request):
-    print("Testing speech")
-    p="OSR_us_000_0040_8k"
-    speech.run_overview(p)
-    return HttpResponse()
-
 # Create your views here.
 # postman: body > form-data key: 'audio_file' (has to match name in form class) value: the file
 #@require_http_methods(["POST"])
@@ -83,17 +75,14 @@ def test_speech(request):
 @authentication_classes([])
 def upload_audio(request):
     if request.method == 'POST':
-        print(request.data)
         data = {'name':request.FILES['audio_file'].name, 'audio_file':request.data.get('audio_file')}
-        print(data)
         file_serializer = serializers.AudioFileSerializer(data=data)
-        #file_serializer = serializers.AudioFileSerializer(data=request.data)
         
         if file_serializer.is_valid():
             file = file_serializer.save()
             p=file.name.split('.', 1)[0] # remove .wav
             speech.run_overview(p)
-            clean_up_temp_directory()
+            # clean_up_temp_directory()
             return HttpResponse("Audio successfully uploaded");
         else:
             print("Audio is not valid")
