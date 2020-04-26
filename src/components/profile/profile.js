@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { API_URL } from '../../constants.js';
 import Cookies from 'js-cookie';
 import Editable from '../shared_components/editable.js';
+import Accordion from '../shared_components/accordion.js';
 
 const Container = styled.div`
     h1 {
@@ -18,6 +19,15 @@ const LogOutButton = styled.div`
 
 const EmailAddressInput = styled.input`
     width: 500px;
+`;
+
+const AccordionContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    & > * {
+        flex-basis: 30%;
+    }
 `;
 
 const Profile = (props) => {
@@ -79,6 +89,10 @@ const Profile = (props) => {
                 />
 
             </Editable>
+
+            <AccordionContainer>
+                <Accordion title="Accordion 1" content="hello 1" />
+            </AccordionContainer>
         </Container>
     )
 }
