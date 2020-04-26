@@ -44,7 +44,7 @@ def register_user(request):
     if serializer.is_valid():
         print("Valid")
         user = serializer.save()
-        #print("sending back the following data")
+        # have to create profile data and link it to user
 
         return Response({'user': serializer.data})
     print("data not valid")
@@ -56,7 +56,8 @@ def verify_session(request):
     print("Verifying session")
     print(request.user)
     if request.user.is_authenticated:
-        print("Verifying session for user with id of " + request.user.id)
+        print("Verifying session for user with id of " + str(request.user.id))
         return Response(status=status.HTTP_200_OK)
     else:
+        print("User is not authenticated")
         return Response(status=status.HTTP_401_UNAUTHORIZED)
