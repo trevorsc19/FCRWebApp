@@ -30,9 +30,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login.login_view),
     path('logout/', login.logout_view),
-    path('sessiontest/', login.session_test),
-    path('verifysession/', login.verify_session)
-    #path('tokentest/', login.token_test)
+    path('register/', login.register_user),
+    path('verifysession/', login.verify_session), 
 ]
 
 urlpatterns += audio_urls
