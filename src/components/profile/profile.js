@@ -25,6 +25,7 @@ const AccordionContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    // select all first level children (all accordions)
     & > * {
         flex-basis: 30%;
     }
@@ -91,7 +92,9 @@ const Profile = (props) => {
             </Editable>
 
             <AccordionContainer>
-                <Accordion title="Accordion 1" content="hello 1" />
+                <Accordion title="Accordion 1">
+                    <p>hello 1</p>
+                </Accordion>
             </AccordionContainer>
         </Container>
     )

@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortUp } from '@fortawesome/free-solid-svg-icons';
 
 const StyledAccordion = styled.div`
+    // so 'AccordionArrow' can abe positioned absolutely
+    position: relative;
     color: #444;
     cursor: pointer;
     border: none;
@@ -28,12 +30,16 @@ const Title = styled.div`
     }
 `;
 
-const stylesForIcons = {
-    position: 'absolute', 
-    right: '0', 
-    top: 0,
-    border: '2px solid red'
-};
+const AccordionArrow = styled(FontAwesomeIcon)`
+    position: absolute;
+    right: 15px;
+    top: 0;
+    transform: ${props => props.rotateArrow ? 'rotate(180deg)' : 'rotate(90deg)'};
+    transition: transform 0.5s;
+    font-size: 50px;
+`;
+
+
 
 const Accordion = (props) => {
     //array destructuring 
@@ -50,12 +56,12 @@ const Accordion = (props) => {
     return (
         <StyledAccordion onClick={handleClick}>
             <Title show={showCollapsible} onMouseEnter={showPreview}>
-            <FontAwesomeIcon icon={faSortUp} />
+            <AccordionArrow rotateArrow={showCollapsible} icon={faSortUp} />
             {props.title}
             </Title>
     
             <Content show={showCollapsible}>
-                {props.content} // use props.children instead
+                {props.children}
             </Content>
         </StyledAccordion>
     )
