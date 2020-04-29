@@ -16,17 +16,29 @@ const StyledAccordion = styled.div`
 
 const Content = styled.div`
     //display: ${props => props.show ? 'block' : 'none'};
-    height: ${props => props.show ? '100px' : '0px'};
-    background-color: #fff;
-    transition: height 0.6s ease;
+    // https://stackoverflow.com/a/8331169
+    max-height: ${props => props.show ? '150px' : '0px'};
+    transition: max-height 0.6s ease;
     overflow: hidden;
+    background-color: #fff;
 `;
 
 const Title = styled.div`
+    // so Date could be positioned absolutely
+    position: relative;
     padding: 18px;
     background-color: ${props => props.show ? '#ccc' : '#eee'};
     &:hover {
         background-color: #ccc;
+    }
+
+    .date {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: inline-block;
+        //border: 2px solid red;
+        font-size: 50%;
     }
 `;
 
@@ -58,6 +70,7 @@ const Accordion = (props) => {
             <Title show={showCollapsible} onMouseEnter={showPreview}>
             <AccordionArrow rotateArrow={showCollapsible} icon={faSortUp} />
             {props.title}
+            <span class="date">{new Date().toISOString().slice(0,10)}</span>
             </Title>
     
             <Content show={showCollapsible}>

@@ -11,6 +11,8 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from django.views.decorators.csrf import ensure_csrf_cookie
 from users.serializers import UserSerializer
+from profile.models import Profile
+from profile.serializers import ProfileSerializer
 
 @api_view(['POST'])
 # @ensure_csrf_cookie
@@ -45,6 +47,15 @@ def register_user(request):
         print("Valid")
         user = serializer.save()
         # have to create profile data and link it to user
+        data = {'user':user, 'first_name':None, 'last_name':None, 'email':request.data["email"], 'birth_date':None, 'country':None}
+        serializer = ProfileSerializer(data=data)
+        if serializer.is_valid():
+            print("Profile data is valid")
+            serializer.save()
+        else:
+            print("Profile data is not valid")
+            print(serializer.errors)
+        #profile = Profile(user=user, first_name=None, last_name=None, email=request.data["email"], birth_date=None, country=None)
 
         return Response({'user': serializer.data})
     print("data not valid")
@@ -57,7 +68,7 @@ def verify_session(request):
     print(request.user)
     if request.user.is_authenticated:
         print("Verifying session for user with id of " + str(request.user.id))
-        return Response(status=status.HTTP_200_OK)
+        return Response({"msg":"session verified"},status=status.HTTP_200_OK)
     else:
         print("User is not authenticated")
         return Response(status=status.HTTP_401_UNAUTHORIZED)

@@ -169,15 +169,49 @@ class FakeData:
             cursor.execute("DELETE FROM profile_table")
 
 
-            
+    # delete data from tables. 
+    """
+    python Backend/manage.py shell
+    from profile.scripts.insert_mock_data import FakeData
+    FakeData().delete_data()   
+    """
+    def delete_data(self):
+        from django.db import connection
+        from users.models import CustomUser as User
+        from profile.models import Profile
+        from users.serializers import UserSerializer
+        from rest_framework.renderers import JSONRenderer
 
-fake_data = FakeData()
+        print("Deleting data")
+        
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM profile_table")
+            cursor.execute("DELETE FROM auth_user")
+            cursor.execute("DELETE FROM django_admin_log")
+            cursor.execute("DELETE FROM audioanalysis_audio")
+
+        user = User.objects.create_superuser('lmp004', 'lmp004@lvc.ed', 'password')        
+        profile = Profile(user=user, first_name='Logan', last_name=None, email='lmp004@lvc.edu', birth_date=None, country=None)
+        profile.save()
+
+        """
+        data = {'user':UserSerializer(user).data, 'first_name':'Logan', 'last_name':None, 'email':'lmp004@lvc.edu', 'birth_date':None, 'country':None}
+        serializer = ProfileSerializer(data=data)
+        if serializer.is_valid():
+            print("Profile data is valid")
+            user = serializer.save()
+            print(user)
+        else:
+            print(serializer.errors)
+        """
+
+#fake_data = FakeData()
 #fake_data.delete_all_users_except_admins()
 #fake_data.delete_all_users_and_profiles()
-start_time = time.time()
-fake_data.insert_mock_data()
-print('It took {0:0.1f} seconds'.format(time.time() - start_time))
-print("Finished")
+#start_time = time.time()
+#fake_data.insert_mock_data()
+#print('It took {0:0.1f} seconds'.format(time.time() - start_time))
+#print("Finished")
 #fake_data.print_all_users()
 
 

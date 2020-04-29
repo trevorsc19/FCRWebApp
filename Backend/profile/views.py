@@ -22,9 +22,12 @@ from rest_framework.permissions import IsAuthenticated
 # @permission_classes([IsAuthenticated])
 def get_session_profile(request):
     print("GETTING PROFILE FROM USER ID " + str(request.user.id))
+    print("GETTING PROFILE FROM USER NAME " + request.user.username)
     if request.user.is_authenticated:
+        print("User is authenticated")
         user_id = request.user.id
         profile_to_return = models.Profile.objects.values('first_name').get(user_id=request.user.id)
+        print("PROFILE TO RETURN")
         print(profile_to_return)
         return Response(profile_to_return)
         #serialized_data = ProfileSerializer(profile_to_return)
