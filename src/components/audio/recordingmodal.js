@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-//import { ReactMic } from 'react-mic';
-import { ReactMicPlus } from 'react-mic-plus';
-// import { ReactMic } from '@cleandersonlobo/react-mic';
+import { ReactMic } from 'react-mic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faMicrophone, faTrash, faSave } from '@fortawesome/free-solid-svg-icons';
 import Timer from '../audio/timer.js';
@@ -232,7 +230,7 @@ fetch("http://127.0.0.1:8000/api/upload_audio", requestOptions)
                     <RecordingHeader>Record new pitch</RecordingHeader>
             </Editable>
 
-            <ReactMicPlus
+            <ReactMic
                 record={record}
                 onStop={onStop}
                 onData={onData}
