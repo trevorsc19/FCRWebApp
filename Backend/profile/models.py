@@ -19,7 +19,7 @@ class Profile(models.Model):
         null=True
     )
     # many to one relationship. Multiple audio entries to one Profile. Django appends "_id" to the field name to its database column name
-    audio_file = models.ForeignKey(audioanalysis.models.Audio, on_delete=models.CASCADE, null=True)
+    # audio_file = models.ForeignKey(audioanalysis.models.Audio, on_delete=models.CASCADE, null=True)
     # we could also use now() postgres function
     account_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)

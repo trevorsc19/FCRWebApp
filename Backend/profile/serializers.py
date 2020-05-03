@@ -8,7 +8,7 @@ class ProfileSerializer(serializers.Serializer):
 
     id = serializers.IntegerField(read_only=True)
     user = UserSerializer(read_only=False)
-    audio = AudioFileSerializer(read_only=True)
+    # audio = AudioFileSerializer(read_only=True)
     #account_created = serializers.DateTimeField(auto_now_add=True)
     #last_modified = serializers.DateTimeField()
     first_name = serializers.CharField(allow_null=True, max_length=30)

@@ -50,13 +50,17 @@ def upload_s3_test(request):
     # https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav
     #form = forms.AudioForm(request.POST, request.FILES)
     #if form.is_valid():
-    serializer = serializers.AudioFileSerializer(data={"s3_url":"https://vrwarebucket.s3.amazonaws.com/s3_upload_file.wav"})
+    # file_name = request.user.username + "_" + pitch_topic + "_" + number
+    # file_name = request.data['file_name']
+    # need to keep the .wav, or else when we download it from s3, it will be a text file
+    file_name = request.FILES["audio_file"].name
+    serializer = serializers.AudioFileSerializer(data={"file_name":file_name, "s3_url":"https://vrwarebucket.s3.amazonaws.com/"+file_name})
     if serializer.is_valid():
         print("Audio is valid")
         serializer.save()
         try:
             #with io.BytesIO(request.FILES) as f:
-            response = s3_client.upload_fileobj(request.FILES["audio_file"], 'vrwarebucket', 's3_upload_file.wav')
+            response = s3_client.upload_fileobj(request.FILES["audio_file"], 'vrwarebucket', file_name)
             # add id of audio entry to logged in profile row
             print(request.user)
             # add url to audio analysis table
