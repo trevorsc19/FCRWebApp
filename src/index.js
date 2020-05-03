@@ -5,8 +5,10 @@ import Contact from "./components/pages/contact";
 import LoginRegister from "./components/pages/loginregister";
 import { API_URL } from './constants.js';
 import styled from 'styled-components';
-import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 import TestPage from './components/authentication/testpage.js'
+import AudioRecording from './components/pages/audioRecording.js'
+import Profile from './components/profile/profile.js';
 
 import {
     BrowserRouter as Router,
@@ -22,32 +24,28 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const [userid, setUserId] = useState();
   
-    // in actaulity, this would only be set after a successful login
-    //Cookies.set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjU1NSwidXNlcm5hbWUiOiJhYjUwNSIsImFkbWluIjp0cnVlLCJpYXQiOjE1Nzk4ODE5NDYsImV4cCI6MTU3OTkxMTk0Nn0.CNtEVna-pZlslDEM94W1whJRIZFnJrNVla3svgu9jfs');
-    //Cookies.set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjU1NSwiYWRtaW4iOnRydWUsImlhdCI6MTU3OTcxOTY0NSwiZXhwIjoxNTc5NzQ5NjQ1fQ.Dj6SncqRbPe-KG0rcoxDpnXmw0c4n53zAYrIGVU87M');
-  
     useEffect(() => {
   
       // token is only ever set when user successfully logins in 
-      let token = Cookies.get('token');
+      let token = Cookie.get('csrftoken');
       console.log("PRIVATE ROUTE COOKIE:", token);
   
       if (token) {
         //setIsAuthenticated(true);
         //send to server to verify it 
   
-        fetch(API_URL+'/verifytoken', {
-          method: 'GET',
+        fetch(API_URL+'verifysession/', {
+          method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
+            'X-CSRFToken': Cookie.get('csrftoken')
+          },
+          'credentials':'include'
         })
           .then(response => {
               console.log(response.status);
             if (response.status === 401) {
-              console.log('Token expired');
               setIsAuthenticated(false);
             } else if (response.status === 200) {
               console.log("SETTING USER IS AUTHENTICATED");
@@ -59,12 +57,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
             return response.json();
           })
           .then(response => {
-            //console.log(response); 
-            setUserId(response);
+            console.log(response); 
+            //setUserId(response);
           }).catch(error => console.log("ERROR", error));
   
       } else {
-        console.log("Token not found");
         setIsAuthenticated(false);
       }
   
@@ -142,6 +139,8 @@ function App() {
                 <Route path="/test" component={TestPage} />
                 <Route path="/hellothere" component={HelloThere} />
                 <Route path="/hi" component={() => <h1>hi</h1>} />
+                <Route path="/audio" component={AudioRecording} />
+                <PrivateRoute path="/profile" component={Profile} />
                 <PrivateRoute path="/hello" component={Hello} />
                 <PrivateRoute path='/protected' component={Protected} />
                 <Route path="/404" component={NotFound} />

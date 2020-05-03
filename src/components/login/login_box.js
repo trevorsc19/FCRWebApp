@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import styles from 'styled-components';
 import Cookies from 'universal-cookie';
@@ -98,3 +99,4 @@ class LoginBox extends React.Component {
 }
 
 export default LoginBox;
+*/

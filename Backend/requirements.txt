@@ -8,3 +8,6 @@ pyjwt
 pytz
 django-cors-headers
 faker
+psycopg2-binary
+boto3
+django-storages

@@ -9,13 +9,13 @@ import jwt, json
 # medium article jyoti gautam 
 
 class TokenAuthentication(BaseAuthentication):
-    print("AUTHENTICATION CLASS")
     model = None
 
     def get_model(self):
         return CustomUser
     
     def authenticate(self, request):
+        print('authenticate method')
         print("authenticating user " + request.data['username'])
         auth = get_authorization_header(request).split()
         print("Authorization header")

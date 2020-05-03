@@ -8,6 +8,7 @@ class FakeData:
 
     usernames = []
     email_prefix = ["@aol.com", "@gmail.com", "@outlook.com", "@yahoo.com"]
+    s3_urls = ["https://vrwarebucket.s3.amazonaws.com/OSR_us_000_0011_8k.wav", "https://vrwarebucket.s3.amazonaws.com/OSR_us_000_0039_8k.wav"]
 
     # get all the usernames from the CSV
     def __init__(self):
@@ -20,6 +21,7 @@ class FakeData:
     def insert_mock_data(self):
         import csv
         from profile.models import Profile
+        from audioanalysis.models import Audio
         from django.db import connection
         # from django.contrib.auth.models import User
         from profile import definitions
@@ -27,6 +29,8 @@ class FakeData:
         import pycountry
         from faker import Faker
         from datetime import datetime
+        from users.models import CustomUser as User
+
 
 
         #self.delete_all_users_except_admins()
@@ -49,7 +53,22 @@ class FakeData:
             profile = Profile(user=user_one_to_one, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date, country=country)
             #print(profile)
             profile.save()
+            # connect audio file to user 
+            audio_file = Audio(user=user_one_to_one, name=self.s3_urls[0].split("/")[-1], s3_url=self.s3_urls[0])
+            audio_file.save()
+            audio_file = Audio(user=user_one_to_one, name=self.s3_urls[1].split("/")[-1], s3_url=self.s3_urls[1])
+            audio_file.save()
+
             print("Created user " + str(i))
+        
+        # Create admin users
+        
+        user = User.objects.create_superuser('lmp004', 'lmp004@lvc.ed', 'password')
+        profile = Profile(user=user, first_name='Logan', last_name="Phillips", email='lmp004@lvc.edu', birth_date='1996-04-24', country='America')
+        # profile = Profile(user=user, first_name='Logan', last_name=None, email='lmp004@lvc.edu', birth_date=None, country=None)
+        profile.save()
+
+        
 
     def create_random_user(self, email_from_profile_object):
         import csv
@@ -81,32 +100,7 @@ class FakeData:
         return usernames
                        
     def delete_all_users_except_admins(self):
-        from django.db import connection
-
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                SELECT * FROM \"auth_user\";""")
-           
-            # or can just run  UPDATE profile_table SET user_id = NULL; then DELETE FROM auth_user WHERE is_superuser IS FALSE;
-            for row in cursor.fetchall():
-                """
-                    delete the one-to-one relationship
-
-                    ERROR:  update or delete on table "auth_user" violates foreign key constraint "profile_table_user_id_fd445281_fk_auth_user_id" on table "profile_table"
-                    DETAIL:  Key (id)=(33044) is still referenced from table "profile_table".
-
-                """
-                id = row[0]
-                cursor.execute("""
-                    UPDATE \"profile_table\" SET user_id = NULL WHERE user_id = (%s);""", [id])
-
-            
-            cursor.execute("DELETE FROM auth_user WHERE is_superuser IS FALSE")
-            for row in cursor.fetchall():
-                print(row[0]) # should print number of deleted rows
-            
-            
-
+       
         # Can also Use Django ORM
         """
         # Delete all users that aren't an admin
@@ -162,15 +156,49 @@ class FakeData:
             cursor.execute("DELETE FROM profile_table")
 
 
-            
+    # delete data from tables. 
+    """
+    python Backend/manage.py shell
+    from profile.scripts.insert_mock_data import FakeData
+    FakeData().delete_data()   
+    """
+    def delete_data(self):
+        from django.db import connection
+        from users.models import CustomUser as User
+        from profile.models import Profile
+        from users.serializers import UserSerializer
+        from rest_framework.renderers import JSONRenderer
+
+        print("Deleting data")
+        
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM profile_table")
+            cursor.execute("DELETE FROM audio_files_table")
+            cursor.execute("DELETE FROM auth_user")
+            cursor.execute("DELETE FROM django_admin_log")
+            cursor.execute("DELETE FROM metrics_table")
+
+        # user = User.objects.create_superuser('lmp004', 'lmp004@lvc.ed', 'password')        
+        # profile = Profile(user=user, first_name='Logan', last_name=None, email='lmp004@lvc.edu', birth_date=None, country=None)
+        # profile.save()
+
+        """
+        data = {'user':UserSerializer(user).data, 'first_name':'Logan', 'last_name':None, 'email':'lmp004@lvc.edu', 'birth_date':None, 'country':None}
+        serializer = ProfileSerializer(data=data)
+        if serializer.is_valid():
+            print("Profile data is valid")
+            user = serializer.save()
+            print(user)
+        else:
+            print(serializer.errors)
+        """
 
 fake_data = FakeData()
-#fake_data.delete_all_users_except_admins()
-#fake_data.delete_all_users_and_profiles()
+fake_data.delete_data()
+print("Table entries deleted")
 start_time = time.time()
 fake_data.insert_mock_data()
 print('It took {0:0.1f} seconds'.format(time.time() - start_time))
 print("Finished")
-#fake_data.print_all_users()
 
 

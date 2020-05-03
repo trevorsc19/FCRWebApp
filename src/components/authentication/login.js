@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
-import { API_URL } from '../../constants.js'
+import { API_URL } from '../../constants.js';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    Switch
+} from 'react-router-dom';
 
 const Container = styled.div`
     //height: 100vh;
@@ -19,7 +26,7 @@ const StyledLoginForm = styled.form`
     margin: 0 auto;
     position: relative;
     top: 50%;
-    border: 2px solid red;
+    //border: 2px solid red;
     padding-bottom: 75px;
 
     input[type="password"],
@@ -74,12 +81,14 @@ const LoginForm = (props) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({username: userName, password: password})
+            body: JSON.stringify({username: userName, password: password}),
+            credentials: 'include'
         })
+        //.then(response => response.json())
         .then(response => response.json())
         .then(parsedResponse => {
             console.log('Response', parsedResponse);
-            Cookies.set('token', parsedResponse['access_token']);
+            window.location.href='/profile';
         });
     }
 

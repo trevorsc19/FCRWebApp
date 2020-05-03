@@ -18,7 +18,8 @@ from django.urls import path
 
 # audio analysis app
 from audioanalysis.views import upload_audio
-from audioanalysis.views import test_speech
+from audioanalysis.views import test_s3
+from audioanalysis.views import upload_s3_test
 
 """
 docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path converters, custom path converters (class and regular expressions)
@@ -27,7 +28,8 @@ docs.djangoproject.com/en/2.2/topics/urls - How Django processes a request, path
 # pk will be the name of the parameter passed to the get() method. We can name this whatever we want.
 urlpatterns = [
     path('api/upload_audio', upload_audio), 
-    path('api/test', test_speech)
+    path('api/tests3', test_s3), 
+    path('api/tests3upload', upload_s3_test)
 ]
 
 # DEBUG must be set to 'False' in settings.py for this to work

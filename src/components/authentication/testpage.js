@@ -1,3 +1,5 @@
+// File used to test JWT and Cookie
+
 import React from 'react';
 import Cookie from 'js-cookie';
 import styled from 'styled-components';
@@ -6,6 +8,12 @@ import { API_URL } from '../../constants.js';
 const Container = styled.div`
     p {
         word-break: break-all;
+    }
+
+    .protected-route-button {
+        display: inline-block;
+        border: 2px solid red;
+        cursor: pointer;
     }
 `;
 
@@ -39,11 +47,12 @@ class TestPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            "access_token_cookie": Cookie.get("token") ? Cookie.get("token") : null,
+            "access_token_cookie": Cookie.get("csrftoken") ? Cookie.get("csrftoken") : null,
             "user_info": null
         }
         this.deleteCookies = this.deleteCookies.bind(this);
         this.sendToken = this.sendToken.bind(this);
+        this.sendRequestToProtectedRoute = this.sendRequestToProtectedRoute.bind(this);
     }
 
     deleteCookies() {
@@ -79,6 +88,20 @@ class TestPage extends React.Component {
         console.log(this.state.cookie);
     }
 
+    sendRequestToProtectedRoute() {
+        fetch(API_URL + "sessiontest/", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': Cookie.get('csrftoken')
+            },
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(response => console.log(response));
+    }
+
     render() {
         return(
             <Container>
@@ -88,6 +111,7 @@ class TestPage extends React.Component {
                     <DeleteCookiesButton onClick={this.deleteCookies}>Delete Cookie</DeleteCookiesButton>
                     <SendTokenButton onClick={this.sendToken}>Send Token</SendTokenButton>
                 </ButtonsContainer>
+                <div className="protected-route-button" onClick={this.sendRequestToProtectedRoute}>Send request to protected route</div>
             </Container>
         )
     }

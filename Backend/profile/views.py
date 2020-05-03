@@ -14,6 +14,24 @@ from profile.serializers import ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+# Get the currently logged in user's profile data
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_session_profile(request):
+    print("GETTING PROFILE FROM USER ID " + str(request.user.id))
+    print("GETTING PROFILE FROM USER NAME " + request.user.username)
+    if request.user.is_authenticated:
+        print("User is authenticated")
+        user_id = request.user.id
+        profile_to_return = models.Profile.objects.values('first_name').get(user_id=request.user.id)
+        print("PROFILE TO RETURN")
+        print(profile_to_return)
+        return Response(profile_to_return)
+        #serialized_data = ProfileSerializer(profile_to_return)
+        #return Response(serialized_data.data)
 
 def my_custom_sql():
     with connection.cursor() as cursor:
@@ -39,40 +57,6 @@ def delete_table(request):
 
         #return JsonResponse({'response':"table successfully deleted"})
 
-"""
-docs.djangoproject.com/en/2.2/ref/models/querysets/ - QuerySets API reference
-"""
-
-"""
-
-Below is from docs.djangoproject.com/en/2.2/topics/http/urls
-
-How Django processes a request:
-
-    1. Django determines the root URLconf module to use. Ordinarily, this is the value of the ROOT_URLCONF setting
-
-    2. Django loads that Python module and looks for the variable urlpatterns. This should be a sequence of django.urls.path() and/or django.urls.re_path() instances
-
-    3. Django runs through each URL pattern, in order, and stops at the first one that marches the requested URL
-
-    4. Once one of the URL patterns matches, Django imports and calls the given view, which is a simple Python function (or a class-vased view). The view gets passed the following arguments:
-        - An instance of HttpRequest
-        - If the matched URL pattern returned no named groups, then the matches from the regular expression are provided as positional arguments.
-        - The keyword arguments are made up of any named parts matched by the path expression, overriden by any arguments specified in the optional kwargs argument to django.urls.path() or django.urls.re_path()
-    5. If no URL pattern matches, or if an exception is raised uring any point in this process, Django invokes and appropriate error-handling view. 
-
-Below is from docs.djangoproject.com/en/2.2/ref/class-based-views/base/
-
-class django.views.generic.base.View - The master class-based view. All other class-based views inherit from this base class.
-
-Method Flowchart
-    1.  setup()
-    2.  dispatch()
-    3.  http_method_not_allowed()
-    4.  options()
-
-"""
-
 # Create your views here.
 
 logger = logging.getLogger(__name__)
@@ -94,13 +78,15 @@ class ProfileList(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
+        print("Creating new profile")
         serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Resposne(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProfileDetail(APIView):
+    
     """
     Retrieve, update, or delete a profile instance
     """
