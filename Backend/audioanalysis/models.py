@@ -1,9 +1,15 @@
 from django.db import models
 from users.models import CustomUser
+import uuid
 
 # Create your models here.
 class Audio(models.Model):
-    user = models.OneToOneField(
+    # By default, Django gives each model the following field
+    # id = models.AutoField(primary_key=True)
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # many to one relationship
+    user = models.ForeignKey(
         CustomUser, 
         on_delete=models.CASCADE, 
         null=True
@@ -17,6 +23,11 @@ class Audio(models.Model):
         db_table="audio_files_table"
     
 class Metrics(models.Model):
+    # By default, Django gives each model the following field
+    # id = models.AutoField(primary_key=True)
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
 
     audio_file = models.OneToOneField(
         Audio, 

@@ -2,6 +2,8 @@ from django.db import models
 #from django.contrib.auth.models import User
 from users.models import CustomUser
 from django.contrib.auth.models import AbstractUser
+import uuid
+
 
 # pip install pycountry (once activating virtual environment)
 import pycountry
@@ -12,6 +14,11 @@ import audioanalysis.models
 # By default, Django will create a table profile_profile
 # Models fields reference: https://docs.djangoproject.com/en/2.2/ref/models/fields/
 class Profile(models.Model):
+    # By default, Django gives each model the following field
+    # id = models.AutoField(primary_key=True)
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     # adds a user_id column to the table
     user = models.OneToOneField(
         CustomUser, 

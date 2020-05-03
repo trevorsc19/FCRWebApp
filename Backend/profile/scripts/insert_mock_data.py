@@ -173,9 +173,9 @@ class FakeData:
         
         with connection.cursor() as cursor:
             cursor.execute("DELETE FROM profile_table")
+            cursor.execute("DELETE FROM audio_files_table")
             cursor.execute("DELETE FROM auth_user")
             cursor.execute("DELETE FROM django_admin_log")
-            cursor.execute("DELETE FROM audio_files_table")
             cursor.execute("DELETE FROM metrics_table")
 
         # user = User.objects.create_superuser('lmp004', 'lmp004@lvc.ed', 'password')        

@@ -3,11 +3,18 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils import timezone
 from .managers import CustomUserManager
+import uuid
+
 
 # AbstractUserModel provides the core implementation of a user model, including hashed passwords and tokenized password resets
 class CustomUser(AbstractBaseUser):
+    # By default, Django gives each model the following field
+    # id = models.AutoField(primary_key=True)
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     #username_validator = UnicodeUsernameValidator()
+    
 
     username = models.CharField(
         max_length=150, 
